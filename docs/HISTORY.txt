@@ -1,0 +1,9 @@
+Changelog for atreal.massloader
+
+    (name of developer listed in brackets)
+
+atreal.massloader - 1.1 Unreleased
+
+    - Initial package structure.
+      [zopeskel]
+

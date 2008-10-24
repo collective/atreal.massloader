@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="context/@@standard_macros/page"
+      i18n:domain="atreal.massloader">
+
+<head>
+</head>
+
+<body>
+<div metal:fill-slot="body"
+     tal:define="context_state context/@@plone_context_state">
+
+<h1 class="documentFirstHeading"
+    i18n:translate="ml_result_title">
+    Import results for 
+    "<span tal:content="context/Title" tal:omit-tag="" i18n:name="title">title</span>"
+</h1>
+
+<a href=""
+   class="link-parent"
+   tal:attributes="href context/absolute_url"
+   i18n:translate="go_to_contentrules_assignment_context">
+    Return
+</a>
+
+<metal:body_macro metal:define-macro="body"
+                  tal:define="log python:request.get('log',[]);
+                              inter nocall:here/massloader_result;
+                              results python:inter.getLog(log)">
+    <p class="documentDescription"
+       tal:condition="python:results"
+       i18n:translate="ml_result_explanation">
+        You can check here the result of your import. 
+    </p>    
+    <tal:cond condition="python:not results"
+              i18n:translate="ml_result_noresult">
+        There wasn't any result logged.
+    </tal:cond>
+    
+    <table class="listing"
+           tal:attributes="summary string:Import results"
+           tal:condition="python:results">
+        <tr>
+            <th i18n:translate="ml_result_th_filename">Original file name</th>
+            <th i18n:translate="ml_result_th_directlink">Direct Link</th>
+            <th i18n:translate="ml_result_size">Size</th>
+            <th i18n:translate="ml_result_status">Status</th>
+            <th i18n:translate="ml_result_notes">Notes</th>
+        </tr>
+        <tal:loop repeat="entry results">
+            <tr>
+                <td tal:content="entry/filename" />
+                <td>
+                    <a tal:content="entry/title"
+                       tal:attributes="href entry/url" />
+                </td>
+                <td tal:content="entry/size" />
+                <td tal:content="entry/status" />
+                <td tal:content="entry/info" />
+            </tr>
+        </tal:loop>
+    </table>
+</metal:body_macro>
+
+</div>
+</body>
+</html>
