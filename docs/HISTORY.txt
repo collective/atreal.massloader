@@ -1,9 +1,22 @@
 Changelog for atreal.massloader
+===============================
+(name of developer listed in brackets)
 
-    (name of developer listed in brackets)
+Version 1.1rc1 - 2008-10-27
+----------------------------
 
-atreal.massloader - 1.1 Unreleased
-
+    - Configlet for max file size, portal type for images and files.
+      (Florent Michon)
+    
+    - Transform the products MassLoader in an egg.
+      (Florent Michon)
+    
     - Initial package structure.
       [zopeskel]
 
+
+Version 1.0    - 2008-03-14
+----------------------------
+    
+    - Last version as a Product.
+      (Matthias Broquet)

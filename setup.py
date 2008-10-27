@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.1-rc1'
+version = '1.1rc1'
 
 setup(name='atreal.massloader',
       version=version,

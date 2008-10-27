@@ -18,13 +18,9 @@ MassLoader is developed in a zope3/Five way. It respects the Plone architecture.
 * The permission is only set by default to the role 'Manager' and 'Owner'.
 
 * In this actual version, portal type of object created are just "Image" or "File".
-Wait for the next version to get more genericity...
 
 * Default max size for each file to be uncompressed is set to 20 Mb. 
-You can modify this size limit by adding manually a 'ML_MaxFileSize' variable into the portal properties, via the ZMI.
-It should be a long int.
-
-There will be a configlet into next release (hopefully!)
+You can modify this size limit in the control panel.
 
 * If a folder with a same id already exists, it is conserved. If a same file exists whith the same id, just the datas
 are updated. 
