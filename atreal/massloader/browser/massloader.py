@@ -1,27 +1,21 @@
-# Imports: Zope
 from Products.Five  import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.component import queryUtility
 import transaction
 
-# Imports: CMF
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
-# Import atreal.massloader
 from atreal.massloader import MassLoaderMessageFactory as _
-from atreal.massloader.interfaces import IMassLoaderAware
 from atreal.massloader.interfaces import IMassLoaderProvider
 from atreal.massloader.browser.controlpanel import IMassLoaderSchema
 
-
-# Imports: Python
 from zipfile import ZipFile
 
-class MassLoaderProvider(BrowserView):
+class MassLoaderProvider (BrowserView):
 
-    implements(IMassLoaderProvider)
+    implements (IMassLoaderProvider)
     encoding = 'cp850'
     msg = {
             'noUpFile':_(u'ml_py_noUpFile',"Uploaded file doesn't exist"),
@@ -33,6 +27,7 @@ class MassLoaderProvider(BrowserView):
             'updateError':_(u'ml_py_updateError','Error while updating object'),
             'updateOK':_(u'ml_py_updateOK','File updated'),
             'createOK':_(u'ml_py_createOK','File created'),
+            'contextNotAllowed':_(u'ml_py_contextNotAllowed','You are not allowed to import an archive here'),
             # the win patch create already the folders, so they are all conserved
             # We change the message for neutral one, XXX to be fixed later...  
             'folderExisted':_(u'ml_py_folderExisted','Folder OK'),
@@ -41,28 +36,60 @@ class MassLoaderProvider(BrowserView):
     log = {}
     wannaReport = {}
     report = {}
-
-    @property
-    def _options(self):
-        _siteroot = queryUtility(IPloneSiteRoot)
-        return IMassLoaderSchema(_siteroot)
    
-    def __init__(self, context, request):
+    def __init__ (self, context, request):
         self.context = context
         self.request = request
-        self.maxFileSize = int((self.getMaxFileSize())) * 1000000L
+        self.maxFileSize = int((self.getMaxFileSize ())) * 1000000L
 
-    def getMaxFileSize(self):
-        """ Return the maxFileSize """
-        return getattr(self._options,'massloader_max_file_size','20')
+    @property
+    def _options (self):
+        _siteroot = queryUtility (IPloneSiteRoot)
+        return IMassLoaderSchema (_siteroot)
+    
+    def getMaxFileSize (self):
+        """ Return the maxFileSize from Settings
+        """
+        return getattr (self._options, 'massloader_max_file_size', '20')
 
-    def getImagePortalType(self):
-        return getattr(self._options,'massloader_image_portal_type','Image')
+    def getImagePortalType (self):
+        """ Return the portal type to create Image in Settings
+        """
+        return getattr (self._options, 'massloader_image_portal_type', 'Image')
     
-    def getFilePortalType(self):
-        return getattr(self._options,'massloader_file_portal_type','File')
+    def getFilePortalType (self):
+        """ Return the portal type to create File in Settings
+        """
+        return getattr (self._options, 'massloader_file_portal_type', 'File')
+
+    def isKeywordsEnabled (self):
+        """ Return True if this option is enabled in Settings
+        """
+        return getattr (self._options, 'massloader_keywords_enable', False)
     
-    def initReport (self,md5Id):
+    def isMassLoaderAware (self):
+        """ Return True if the context is a selected content types in Settings
+        """
+        if self.context.portal_type in getattr (self._options, 'massloader_possible_types', []):
+            return True
+        else:
+            return False
+
+    def loadKeywordsAndDescription (self, obj, **kwargs):
+        """ Set on new object created Keywords and Description of the context
+            if this option is enabled in Settings
+        """
+        if self.isKeywordsEnabled ():
+            obj.setDescription (self.context.Description ())
+            obj.setSubject (self.context.Subject ())
+    
+    def redirectToContext (self):
+        """ Redirect to the context page with the portal status message
+            contextNotAllowed
+        """
+        self.outMassLoader (self.msg['contextNotAllowed'], self.context.absolute_url ())
+    
+    def initReport (self, md5Id):
         """ init the string used for building the report """
         tabHead = ' <table class="listing" \
                    tal:attributes="summary string:Import results" \
@@ -77,8 +104,7 @@ class MassLoaderProvider(BrowserView):
         '
         self.report[md5Id] = tabHead
 
-
-    def addLine (self,entry,md5Id):
+    def addLine (self, entry, md5Id):
         """ Add a line into the report """
         tabLine = '     <tr>\
                   <td>%s</td>\
@@ -92,9 +118,8 @@ class MassLoaderProvider(BrowserView):
         '
         values = [entry[item] for item in ['filename','url','title','size','status','info']]
         self.report[md5Id] += tabLine % tuple(values) 
-    
-    
-    def finalizeReport(self,zipFileName,md5Id):
+        
+    def finalizeReport (self, zipFileName, md5Id):
         """
         """
         tabFooter = '</table>\
@@ -115,8 +140,8 @@ class MassLoaderProvider(BrowserView):
         return True
 
 
-    def setLog (self,md5Id,filename,title='N/A',size='0',url=None,
-                status='Ok',info=None):
+    def setLog (self, md5Id, filename, title='N/A', size='0', url=None,
+                status='Ok', info=None):
         """
         """
         entry = {
@@ -132,13 +157,13 @@ class MassLoaderProvider(BrowserView):
         self.log[md5Id].append(entry)
 
 
-    def getLog (self,md5Id):
+    def getLog (self, md5Id):
         """
         """
         return self.log.pop(md5Id,[])
 
 
-    def getFileTitle(self,item,lPath):
+    def getFileTitle (self, item, lPath):
         """ Return type and title """
         if item.endswith('/'):
             return lPath[len(lPath)-2],True
@@ -146,7 +171,7 @@ class MassLoaderProvider(BrowserView):
             return lPath[len(lPath)-1],False
 
 
-    def manage_additionalOperation(self,type,obj,**kwargs):
+    def manage_additionalOperation (self, type, obj, **kwargs):
         """ Here we hardcoded the object creation, 
             until we find a way to proceed generically.
             Add your CT specific operation here.
@@ -158,7 +183,7 @@ class MassLoaderProvider(BrowserView):
             obj.setFile(kwargs['data'], filename=kwargs['filename'])
     
     
-    def reencode(self,txt):
+    def reencode (self, txt):
         """
         """
         try:
@@ -167,7 +192,7 @@ class MassLoaderProvider(BrowserView):
             return txt.decode(self.encoding).encode('utf-8')
     
     
-    def safeNormalize(self,putils,txt):
+    def safeNormalize (self, putils, txt):
         """
         """
         try:
@@ -176,7 +201,7 @@ class MassLoaderProvider(BrowserView):
             return putils.normalizeString(unicode(txt,self.encoding))
 
     
-    def getContainer(self,path,item):
+    def getContainer (self, path, item):
         """ Return the container object """
         ind = path.index(item)
         if not ind:
@@ -194,7 +219,7 @@ class MassLoaderProvider(BrowserView):
                 return False
 
 
-    def validateFile (self,filename,zFile):
+    def validateFile (self, filename, zFile):
         """ Validate few parameters of the compressed file """
         zInfo = zFile.NameToInfo[filename]
         if zInfo.file_size > self.maxFileSize:
@@ -202,7 +227,7 @@ class MassLoaderProvider(BrowserView):
         return True,zInfo.file_size         
   
 
-    def createObject(self,id,isFolder,title,container,zFile,filename):
+    def createObject (self, id, isFolder, title, container, zFile, filename):
         """ Create the object """
         putils = getToolByName(self, 'plone_utils')
         ptypes = getToolByName(self, 'portal_types')
@@ -217,6 +242,7 @@ class MassLoaderProvider(BrowserView):
                     ptypes.constructContent(type_name=type, container=container, 
                                             id=id, title=title)
                     obj = container[id]
+                    self.loadKeywordsAndDescription(obj)
                     obj.reindexObject()
                 except:
                     return False,'createError',None,''
@@ -248,6 +274,7 @@ class MassLoaderProvider(BrowserView):
                     ptypes.constructContent(type_name=type, container=container, 
                                             id=id)
                     obj = container[id]
+                    self.loadKeywordsAndDescription(obj)
                     self.manage_additionalOperation(type,obj,data=data,
                                                     filename=filename)
                     obj.setTitle(title)
@@ -273,7 +300,7 @@ class MassLoaderProvider(BrowserView):
         return 'noUpFile',None
 
 
-    def winPatch (self,zFile,md5Id):
+    def winPatch (self, zFile, md5Id):
         """ When using the zip functionnality of Microsoft Windows,
            the zip specification is not well implemented. 
            So, we have to check it first ...  
@@ -297,7 +324,7 @@ class MassLoaderProvider(BrowserView):
                             info=self.msg[code])
 
 
-    def buildTree (self,zFile,md5Id):
+    def buildTree (self, zFile, md5Id):
         """ Build the tree matching zFile """
         putils = getToolByName(self, 'plone_utils')
         error = False
@@ -347,14 +374,14 @@ class MassLoaderProvider(BrowserView):
             return 'success'
 
 
-    def outMassLoader (self,out,url):
+    def outMassLoader (self, out, url):
         """ Add a portal message within the return status """
         putils = getToolByName(self, 'plone_utils')
         putils.addPortalMessage(out)
         self.request.RESPONSE.redirect(url)
 
 
-    def uniqueId (self,mlist):
+    def uniqueId (self, mlist):
         """ Generate a unique ID to identifiate each file contained
             into the zip file.
         """
@@ -364,7 +391,6 @@ class MassLoaderProvider(BrowserView):
 
     def runMassLoader (self):
         """ runMassLoader """
-#        out = StringIO()
         zf,md5Id = self.loadZipFile()
         curl = self.context.absolute_url()
         if isinstance(zf,ZipFile):
@@ -375,15 +401,23 @@ class MassLoaderProvider(BrowserView):
             out = self.msg[zf]
             url = curl+'/@@massloader_import'
         self.outMassLoader(out,url)
-   
 
-class MassLoaderActionProvider( BrowserView ):
 
-    def __init__(self, context, request):
+class MassLoaderActionProvider (BrowserView):
+
+    def __init__ (self, context, request):
         self.request = request
         self.context = context
-
-    def showMassLoaderAction(self):
-        """ Return True if the context is marked with IMassLoaderAware
+    
+    @property
+    def _options (self):
+        _siteroot = queryUtility (IPloneSiteRoot)
+        return IMassLoaderSchema (_siteroot)
+    
+    def showMassLoaderAction (self):
+        """ Return True if the context is a selected content types in Settings
         """
-        return IMassLoaderAware.providedBy(self.context)
+        if self.context.portal_type in getattr (self._options, 'massloader_possible_types', []):
+            return True
+        else:
+            return False

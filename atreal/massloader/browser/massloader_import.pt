@@ -8,7 +8,9 @@
 <body>
 <div metal:fill-slot="body"
      tal:define="context_state context/@@plone_context_state">
-    
+ 
+<div tal:condition="view/isMassLoaderAware">
+
 <h1 class="documentFirstHeading"
     i18n:translate="ml_import_title">
     Import form for 
@@ -41,6 +43,9 @@
         <li i18n:translate="ml_rule_object">
         If an object with a similar name already exists, it will be updated with
         the data of the new one.
+        </li>
+        <li tal:condition="view/isKeywordsEnabled" i18n:translate="ml_rule_keywords">
+        Each new object created will have the description and the keywords of this folder.
         </li>
     </ul>
 <h2 i18n:translate="ml_advice">Advice</h2>
@@ -116,7 +121,10 @@
 
 </fieldset>
 </form>
-
+</div>
+<div tal:condition="not:view/isMassLoaderAware">
+ <tal:redirect content="view/redirectToContext" />
+</div> 
 </div>
 </body>
 </html>

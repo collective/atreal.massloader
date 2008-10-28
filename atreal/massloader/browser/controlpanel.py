@@ -1,7 +1,7 @@
 from zope.interface import Interface
 from zope.component import adapts
 from zope.interface import implements
-from zope.schema import TextLine, Choice
+from zope.schema import TextLine, Choice, Bool, List
 from zope.formlib import form
 
 from Products.CMFDefault.formlib.schema import ProxyFieldProperty
@@ -39,6 +39,24 @@ class IMassLoaderSchema(Interface):
         vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes",
         required=True)
 
+    massloader_keywords_enable = Bool(
+        title=_(u'ml_label_keywords_enable',
+                default=u"Enable Keywords and Description transfert ?"),
+        description=_(u"ml_help_keywords_enable",
+                      default=u"This option allows you to apply the description and the keywords of the folder in which one you import the zip file with all the new objects created. If the object is already exists : the description and keywords will not be applied."),
+        default=False,
+        required=True)
+
+    massloader_possible_types = List(
+        title = _(u'ml_label_possible_types',
+                  default=u"MassLoader Aware Types"),
+        required = False,
+        default = ['Large Plone Folder', 'Plone Site', 'Folder'],
+        description = _(u"ml_help_possible_types",
+                        default=u"Content Type where we can use MassLoader on it. Of course, you have to selected only Folderish Content Types in order to see MassLoader run correctly."),
+        value_type = Choice( title=u"ml_label_possible_types", source="plone.app.vocabularies.PortalTypes" )
+        )
+
 class MassLoaderControlPanelAdapter(SchemaAdapterBase):
 
     adapts(IPloneSiteRoot)
@@ -50,6 +68,8 @@ class MassLoaderControlPanelAdapter(SchemaAdapterBase):
     massloader_max_file_size = ProxyFieldProperty(IMassLoaderSchema['massloader_max_file_size'])
     massloader_image_portal_type = ProxyFieldProperty(IMassLoaderSchema['massloader_image_portal_type'])
     massloader_file_portal_type = ProxyFieldProperty(IMassLoaderSchema['massloader_file_portal_type'])
+    massloader_keywords_enable = ProxyFieldProperty(IMassLoaderSchema['massloader_keywords_enable'])
+    massloader_possible_types = ProxyFieldProperty(IMassLoaderSchema['massloader_possible_types'])
     
 class MassLoaderControlPanel(ControlPanelForm):
     form_fields = form.FormFields(IMassLoaderSchema)
