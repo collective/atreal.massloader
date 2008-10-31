@@ -15,7 +15,7 @@
     <i18n:registerTranslations directory="locales"/>
     
     <genericsetup:registerProfile
-        name="default"
+        name="MassLoader"
         title="MassLoader"
         directory="profiles/default"
         description="Add an action to import zip files."
