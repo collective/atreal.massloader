@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from Products.Five  import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
@@ -51,6 +53,11 @@ class MassLoaderProvider (BrowserView):
         """ Return the maxFileSize from Settings
         """
         return getattr (self._options, 'massloader_max_file_size', '20')
+
+    def isCtrEnabled (self):
+        """ Return the ctr_enabled from Settings
+        """
+        return getattr (self._options, 'massloader_ctr_enabled')
 
     def getImagePortalType (self):
         """ Return the portal type to create Image in Settings
@@ -176,11 +183,17 @@ class MassLoaderProvider (BrowserView):
             until we find a way to proceed generically.
             Add your CT specific operation here.
         """
-        if type == self.getImagePortalType():
-            obj.setImage(kwargs['data'])
-
-        elif type == self.getFilePortalType():
-            obj.setFile(kwargs['data'], filename=kwargs['filename'])
+        if not self.isCtrEnabled():
+            if type == self.getImagePortalType():
+                obj.setImage(kwargs['data'])
+    
+            elif type == self.getFilePortalType():
+                obj.setFile(kwargs['data'], filename=kwargs['filename'])
+        else:
+            if type == 'Document':
+                obj.setText(kwargs['data'])
+            else:
+                obj.update_data(kwargs['data'])
     
     
     def reencode (self, txt):
@@ -267,10 +280,9 @@ class MassLoaderProvider (BrowserView):
                     data = zFile.read(filename)
                     mimetype = mtr.classify(data,filename=filename).__str__()
                     type = ctr.findTypeName(filename,mimetype,None)
-                    # AH AH AH very dirty harcoded stuff... Wait for the next version
-                    # to have more genericity 
-                    if type != self.getImagePortalType():
-                      type = self.getFilePortalType()
+                    if not self.isCtrEnabled():
+                        if type != self.getImagePortalType():
+                            type = self.getFilePortalType()
                     ptypes.constructContent(type_name=type, container=container, 
                                             id=id)
                     obj = container[id]

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from zope.interface import Interface
 from zope.component import adapts
 from zope.interface import implements
@@ -20,6 +22,13 @@ class IMassLoaderSchema(Interface):
                       default=u"Each file contained in the zip file must fit this maximum size. If the size exceeds this limit, the object will not be created."),
         default=u'20',
         required=True)
+
+    massloader_ctr_enabled = Bool(
+        title=_(u'ml_label_ctr_enabled',
+                default=u"Portal type based on Content Type Registry ?"),
+        description=_(u"ml_help_ctr_enabled",
+                      default=u"If checked, the choice of the portal type that receive the object will be based on the Content Type Registry (in ZMI). Be aware that checking this option will disable the 2 follow-up options."),
+        default=True,)
    
     massloader_image_portal_type = Choice(
         title=_(u'ml_label_image_portal_type',
@@ -66,6 +75,7 @@ class MassLoaderControlPanelAdapter(SchemaAdapterBase):
         super(MassLoaderControlPanelAdapter, self).__init__(context)
 
     massloader_max_file_size = ProxyFieldProperty(IMassLoaderSchema['massloader_max_file_size'])
+    massloader_ctr_enabled = ProxyFieldProperty(IMassLoaderSchema['massloader_ctr_enabled'])
     massloader_image_portal_type = ProxyFieldProperty(IMassLoaderSchema['massloader_image_portal_type'])
     massloader_file_portal_type = ProxyFieldProperty(IMassLoaderSchema['massloader_file_portal_type'])
     massloader_keywords_enable = ProxyFieldProperty(IMassLoaderSchema['massloader_keywords_enable'])

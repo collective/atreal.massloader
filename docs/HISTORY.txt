@@ -1,32 +1,46 @@
+===============================
 Changelog for atreal.massloader
 ===============================
 (name of developer listed in brackets)
 
-Version 2.0.0 - 2008-XX-XX
+
+Version 2.1.0-beta1 - 2009-04-22
+----------------------------
+
+    - Portal type can be based on content_type_registry
+    [Matthias Broquet]
+    
+    - Eggification
+    [Matthias Broquet]
+
+
+Version 2.0.0 - 2008-12-25
 ----------------------------
 
     - Option to create objects with description and keywords of the folder.
-    (Florent Michon)
+    [Florent Michon]
     
     - Change the action provider with interface IMassLoaderAware
       to a configlet who permit to choose portal types where you can import
       a zip file.
-    (Florent Michon)
+    [Florent Michon]
+
 
 Version 1.1rc1 - 2008-10-27
 ----------------------------
 
     - Configlet for max file size, portal type for images and files.
-    (Florent Michon)
+    [Florent Michon]
     
     - Transform the products MassLoader in an egg.
-    (Florent Michon)
+    [Florent Michon]
 
     - Initial package structure.
     [zopeskel]
+
 
 Version 1.0.0 - 2008-03-14
 ----------------------------
     
     - Last version as a Product.
-    (Matthias Broquet)
+    [Matthias Broquet]
