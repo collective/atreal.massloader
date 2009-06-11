@@ -4,6 +4,9 @@ from Products.Five  import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.component import queryUtility
+from zope.event import notify
+from zope.lifecycleevent import ObjectCreatedEvent
+from zope.lifecycleevent import ObjectModifiedEvent
 import transaction
 
 from Products.CMFCore.utils import getToolByName
@@ -270,6 +273,7 @@ class MassLoaderProvider (BrowserView):
                                                     filename=filename)
                     obj.reindexObject()
                     transaction.savepoint(optimistic=True)
+                    notify(ObjectModifiedEvent(obj))
                 except:
                     return False,"updateError",None,''
                 code = 'updateOK'
@@ -293,6 +297,7 @@ class MassLoaderProvider (BrowserView):
                     obj.setFormat(mimetype)
                     obj.reindexObject()
                     transaction.savepoint(optimistic=True)
+                    notify(ObjectCreatedEvent(obj))
                 except:
                     return False,"createError",None,''
                 code = 'createOK'
