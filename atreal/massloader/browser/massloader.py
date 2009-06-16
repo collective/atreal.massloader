@@ -60,7 +60,15 @@ class MassLoaderProvider (BrowserView):
     def isCtrEnabled (self):
         """ Return the ctr_enabled from Settings
         """
-        return getattr (self._options, 'massloader_ctr_enabled')
+        if getattr (self._options, 'massloader_option_type', None) == 'opt3':
+            return True
+        else:
+            return False
+
+    def getOption (self):
+        """ Return the portal type to create Image in Settings
+        """
+        return getattr (self._options, 'massloader_option_type', 'opt1')
 
     def getImagePortalType (self):
         """ Return the portal type to create Image in Settings
@@ -158,7 +166,7 @@ class MassLoaderProvider (BrowserView):
                     'filename':filename,
                     'title':title,
                     'size':size,
-                    'url':url, 
+                    'url':url+'/view', 
                     'status':status,
                     'info':info,
                 }
@@ -186,13 +194,14 @@ class MassLoaderProvider (BrowserView):
             until we find a way to proceed generically.
             Add your CT specific operation here.
         """
-        if not self.isCtrEnabled():
+        if self.getOption() == 'opt1':
             if type == self.getImagePortalType():
                 obj.setImage(kwargs['data'])
-    
             elif type == self.getFilePortalType():
                 obj.setFile(kwargs['data'], filename=kwargs['filename'])
-        else:
+        elif self.getOption() == 'opt2':
+            obj.setFile(kwargs['data'], filename=kwargs['filename'])
+        elif self.getOption() == 'opt3':
             if type == 'Document':
                 obj.setText(kwargs['data'])
             else:
@@ -284,9 +293,11 @@ class MassLoaderProvider (BrowserView):
                     data = zFile.read(filename)
                     mimetype = mtr.classify(data,filename=filename).__str__()
                     type = ctr.findTypeName(filename,mimetype,None)
-                    if not self.isCtrEnabled():
+                    if self.getOption() == 'opt1':
                         if type != self.getImagePortalType():
                             type = self.getFilePortalType()
+                    elif self.getOption() == 'opt2':
+                        type = self.getFilePortalType()
                     ptypes.constructContent(type_name=type, container=container, 
                                             id=id)
                     obj = container[id]
