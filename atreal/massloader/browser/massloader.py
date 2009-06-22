@@ -166,7 +166,7 @@ class MassLoaderProvider (BrowserView):
                     'filename':filename,
                     'title':title,
                     'size':size,
-                    'url':url+'/view', 
+                    'url':url, 
                     'status':status,
                     'info':info,
                 }
