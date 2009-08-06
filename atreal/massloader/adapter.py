@@ -103,6 +103,14 @@ class MassLoader(object):
         """
         """
         return getattr(self._options, 'massloader_possible_types', [])
+
+    def getAdditionalFields(self):
+        """
+        """
+        additional = getattr(self._options, 'massloader_additional_fields', '')
+        if additional == '':
+            return []
+        return additional.split('\n')
     
     def portalTypeForFolder(self):
         """
@@ -284,8 +292,20 @@ class MassLoader(object):
     def _loadAdditionnalsFields(self, obj):
         """
         """
-        print "not implemented yet"
-    
+        for field in self.getAdditionalFields():
+            #
+            getfield = self.context.getField(field) or self.context.getField(field.lower())
+            if getfield is None:
+                continue
+            getfield = getfield.getAccessor(self.context)
+            #
+            setfield = obj.getField(field) or obj.getField(field.lower())
+            if setfield is None:
+                continue
+            setfield = setfield.getMutator(obj)
+            #
+            setfield(getfield())
+
     def _createObject(self, id, isFolder, title, container, filename):
         """ Create the object
         """
@@ -368,40 +388,7 @@ class MassLoader(object):
         if obj.portal_type in self.view_types:
             url += '/view'
         return True, code, url, obj.getObjSize()
-    
-    def _patchForWindows(self):
-        """ When using the zip functionnality of Microsoft Windows, the zip
-        specification is not well implemented. So we have to check it first.
-        """
-        #
-        rootFolderList = []
-
-        #
-        for item in self.archive.listContent():
-            # Each element of item path in a list
-            path = item.split('/')
-            
-            # 
-            if len(path) >= 2 and path[0] not in rootFolderList:
-                #
-                rootFolderList.append(path[0])
-                
-                #
-                id = self._safeNormalize(path[0])
-                title = self._reencode(path[0])
-                container = self.context
-                isFolder = True
-                rt, code, url, size = self._createObject(id,
-                                                         isFolder,
-                                                         title,
-                                                         container,
-                                                         path[0])
-                if not rt:
-                    self._log(title, info=code)
-                else:
-                    self._log(title, title=title,
-                              status=_(u"Ok"), url=url, info=code)
-    
+   
     def process(self, fileupload=None, wantreport=False):
         """
         """
@@ -412,9 +399,6 @@ class MassLoader(object):
         self.archive = queryUtility(IArchiveUtility).initialize(fileupload)
         if self.archive is None:
             return self.msg[NOCORRECTFILE], ''
-        
-        # With new implementation of getContainer patchForWindows is useless
-        #self._patchForWindows()
         
         #
         for item in self.archive.listContent():
