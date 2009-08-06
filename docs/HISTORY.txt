@@ -3,7 +3,24 @@ Changelog for atreal.massloader
 ===============================
 (name of developer listed in brackets)
 
+Version 3.0.0beta1 - 2009-08-XX
+----------------------------
 
+    - Option to transfer fields content names in controlpanel if exists
+      in container and in object created
+    [Florent Michon]
+    
+    - Two ways to create contents : "Image and Files" or "only Files"
+    [Florent Michon]
+
+    - Compatibility with .7z archives
+    [Florent Michon]
+
+    - Change the structure of the package with adapter and utility creation
+      Cleanup of the package
+    [Florent Michon]
+    
+    
 Version 2.1.0-beta1 - 2009-04-22
 ----------------------------
 

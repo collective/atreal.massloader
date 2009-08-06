@@ -13,6 +13,27 @@
     <include package=".browser" />
     
     <i18n:registerTranslations directory="locales"/>
+
+    <five:implements
+        class="Products.CMFPlone.Portal.PloneSite"
+        interface=".interfaces.IMassLoaderAware"
+        />
+    
+    <five:implements
+        class="Products.ATContentTypes.content.base.ATCTFolderMixin"
+        interface=".interfaces.IMassLoaderAware"
+        />
+
+    <adapter
+        for=".interfaces.IMassLoaderAware"
+	factory=".adapter.MassLoader"
+	provides=".interfaces.IMassLoader"
+        />
+
+    <utility
+        provides=".interfaces.IArchiveUtility"
+        factory=".utility.ArchiveUtility"
+        />
     
     <genericsetup:registerProfile
         name="MassLoader"

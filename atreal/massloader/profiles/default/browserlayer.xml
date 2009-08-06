@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<layers>
+    <layer name="atreal.massloader.layer"
+           interface="atreal.massloader.interfaces.IMassLoaderLayer" />
+</layers>

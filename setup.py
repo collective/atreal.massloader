@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.1.0-beta1'
+version = '3.0.0beta1'
 
 setup(name='atreal.massloader',
       version=version,
@@ -25,6 +25,7 @@ setup(name='atreal.massloader',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'pylzma',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

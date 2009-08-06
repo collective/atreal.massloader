@@ -1,0 +1,159 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="atreal.massloader">
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main"
+                    tal:define="context_state context/@@plone_context_state;">
+ 
+        <div tal:condition="view/available">
+
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+
+        <h1 class="documentFirstHeading"
+            i18n:translate="ml_import_title">
+            Import form for 
+            "<span tal:content="context/Title" tal:omit-tag="" i18n:name="title">title</span>"
+        </h1>
+
+        <!--<div tal:replace="structure provider:plone.belowcontenttitle" />-->
+
+        <a href=""
+           class="link-parent"
+           tal:attributes="href context/absolute_url"
+           i18n:translate="go_to_contentrules_assignment_context">
+            Return
+        </a>
+        
+        
+        <p class="documentDescription"
+           i18n:translate="ml_preambule">
+            Here you can import an archive file, with sub-folders and sub-files. 
+        </p>
+
+        <!--<div tal:replace="structure provider:plone.abovecontentbody" />-->
+        <div>
+        
+            <dl class="collapsible inline collapsedOnLoad" >
+                <dt class="collapsibleHeader" i18n:translate="">Rules and Advices</dt>
+                <dd class="collapsibleContent">
+              
+                <h3 i18n:translate="ml_rules">Rules</h3>
+                    <ul>
+                        <li i18n:translate="ml_rule_size">
+                        Each file contained in the archive file must fit 
+                        a maximum size of <tal:block replace="view/getMaxFileSize" i18n:name="size"/> Mb.
+                        If the size exceeds this limit, the object will not be created.
+                        </li>
+                        <li i18n:translate="ml_rule_folder">
+                        If a folder with a similar name already exists, the old one will be 
+                        conserved.
+                        </li>
+                        <li i18n:translate="ml_rule_object">
+                        If an object with a similar name already exists, it will be updated with
+                        the data of the new one.
+                        </li>
+                        <li i18n:translate="ml_rule_format">
+                        The two kinds of archive treated by MassLoader are zip and 7zip.
+                        </li>
+                    </ul>
+                <h3 i18n:translate="ml_advice">Advice</h3>
+                    <ul>
+                        <li i18n:translate="ml_advice_time">
+                        This operation may take a <strong>LOT OF TIME</strong>, depending
+                        on you internet bandwith, AND of course on the size of your zip file,
+                        and the formats of the contained files. So be patient and use 
+                        the import functionality with care.
+                        </li>
+                        <li i18n:translate="ml_advice_log">
+                        All operations performed will be logged and displayed at the end
+                        of the import. So you will be able to know what occurred with
+                        each file.
+                        </li>
+                        <li i18n:translate="ml_advice_char">
+                        It's strongly suggested to not have file names with specials characters,
+                        like [éùàê ...],
+                        in order to avoid strange file's titles in the portal.
+                        </li>
+                    </ul>
+              
+                </dd>
+            </dl>
+            
+        </div>        
+
+
+        <form method="post"
+              enctype="multipart/form-data"
+              tal:attributes="action string:${context/absolute_url}/@@massloader">
+        <fieldset id="preview" class="block">
+            <legend class="collapsibleHeader" i18n:translate="ml_form_choice">
+              Choose your <strong>archive file</strong> then submit it  
+            </legend>
+        
+            <div class="field">
+                <input class="noborder"
+                       type="file"
+                       name="up_file"
+                       id="up_file"
+                       />
+            </div>
+            
+            <div class="field">
+                <input class="noborder"
+                       type="checkbox"
+                       name="build_report"
+                       id="build_report"
+                       tabindex=""
+                       tal:attributes="tabindex tabindex/next"
+                       /> 
+                <label for="inherit" i18n:translate="ml_form_document">
+                Build a report as a Document.
+                </label>
+                <div class="formHelp" i18n:translate="ml_help_form_document">
+                    This option will create a Plone Document with the result of the Mass
+                    Upload in this folder.
+                    If you don't choose this option, the report will be displayed only once.
+                </div>
+            </div>
+        
+            <input class="context"
+                   type="submit"
+                   name="form.button.submit"
+                   value="Save"
+                   i18n:attributes="value label_save"
+                   tabindex=""
+                   tal:attributes="tabindex tabindex/next"
+                   />
+            <input class="standalone"
+                   type="reset"
+                   name="form.button.cancel"
+                   value="Cancel"
+                   i18n:attributes="value label_cancel"
+                   tabindex=""
+                   tal:attributes="tabindex tabindex/next"
+                   />
+        
+        </fieldset>
+        </form>
+
+
+        <div tal:condition="view/log"
+             tal:replace="structure view/log">
+            &nbsp;
+        </div>
+        
+        </div>
+        
+        <!--<div tal:replace="structure provider:plone.belowcontentbody" />-->
+
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

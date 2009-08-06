@@ -3,7 +3,7 @@
 from zope.interface import Interface
 from zope.component import adapts
 from zope.interface import implements
-from zope.schema import TextLine, Choice, Bool, List
+from zope.schema import TextLine, Text, Choice, Bool, List
 from zope.formlib import form
 
 from Products.CMFDefault.formlib.schema import ProxyFieldProperty
@@ -17,20 +17,17 @@ from plone.app.controlpanel.form import ControlPanelForm
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
-MASSLOADER_OPTION_TYPE = {
-    _(u"Option 3 - Based on Content Type Registry"): 'opt3',
-    _(u"Option 1 - Based on two Content Types : Image and File"): 'opt1',
-    _(u"Option 2 - Based on only one Content Type : File"): 'opt2',
 
-}
-
-MASSLOADER_OPTION_TYPE_VOCABULARY = SimpleVocabulary(
-    [SimpleTerm(v, v, k) for k, v in MASSLOADER_OPTION_TYPE.items()]
-    )
-
-
-class IMassLoaderMainSchema(Interface):
-
+class IMassLoaderSchema(Interface):
+    
+    massloader_max_file_size = TextLine(
+        title=_(u'ml_label_max_file_size',
+                default=u"Limit size of each file in the zip file (in MegaBytes)"),
+        description=_(u"ml_help_max_file_size",
+                      default=u"Each file contained in the zip file must fit this maximum size. If the size exceeds this limit, the object will not be created."),
+        default=u'20',
+        required=True)
+    
     massloader_possible_types = List(
         title = _(u'ml_label_possible_types',
                   default=u"MassLoader Aware Types"),
@@ -41,44 +38,14 @@ class IMassLoaderMainSchema(Interface):
         value_type = Choice( title=u"ml_label_possible_types", source="plone.app.vocabularies.PortalTypes" )
         )
     
-    massloader_keywords_enable = Bool(
-        title=_(u'ml_label_keywords_enable',
-                default=u"Enable Keywords and Description transfert ?"),
-        description=_(u"ml_help_keywords_enable",
-                      default=u"This option allows you to apply the description and the keywords of the folder in which one you import the zip file with all the new objects created. If the object is already exists : the description and keywords will not be applied."),
+    massloader_image_like_file = Bool(
+        title=_(u'ml_label_image_like_file',
+                default=u"Treat Images like Files"),
+        description=_(u"ml_help_image_like_file",
+                      default=u"In order to create Images as Portal Type Files."),
         default=False,
-        required=True)
-    
-    massloader_max_file_size = TextLine(
-        title=_(u'ml_label_max_file_size',
-                default=u"Limit size of each file in the zip file (in MegaBytes)"),
-        description=_(u"ml_help_max_file_size",
-                      default=u"Each file contained in the zip file must fit this maximum size. If the size exceeds this limit, the object will not be created."),
-        default=u'20',
-        required=True)
-    
-class IMassLoaderTypesSchema(Interface):
-
-    massloader_option_type = Choice(
-        title=_(u'ml_label_option_type',
-                default=u"Option for portal type construction"),
-        description=_(u"ml_help_option_type",
-                      default=u"Option 1 : The portal type that receive the object will be based on the two follow-up options, "
-                      u"Option 2 : The portal type that receive the object will be based on the second one follow-up option, "
-                      u"Option 3 : The choice of the portal type that receive the object will be based on the Content Type Registry (in ZMI). Be aware that checking this option will disable the 2 follow-up options."),
-        default=u'opt1',
-        vocabulary=MASSLOADER_OPTION_TYPE_VOCABULARY,
-        required=True)
-   
-    massloader_image_portal_type = Choice(
-        title=_(u'ml_label_image_portal_type',
-                default=u"Portal Type for image"),
-        description=_(u"ml_help_image_portal_type",
-                      default=u"The portal type you want in order to create images. Be aware that the content type must implement setImage."),
-        default=u'Image',
-        vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes",
-        required=True)
-    
+        required=False)
+      
     massloader_file_portal_type = Choice(
         title=_(u'ml_label_file_portal_type',
                 default=u"Portal Type for file"),
@@ -86,11 +53,24 @@ class IMassLoaderTypesSchema(Interface):
                       default=u"The portal type you want in order to create files. Be aware that the content type must implement setFile."),
         default=u'File',
         vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes",
-        required=True)
+        required=False)
+    
+    massloader_folder_portal_type = Choice(
+        title=_(u'ml_label_folder_portal_type',
+                default=u"Portal Type for folder"),
+        description=_(u"ml_help_folder_portal_type",
+                      default=u"The portal type you want in order to create folders. Be aware that the content type must be folderish and allow the file type selected."),
+        default=u'Folder',
+        vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes",
+        required=False)
 
-class IMassLoaderSchema(IMassLoaderMainSchema, IMassLoaderTypesSchema):
-    """
-    """
+    massloader_additional_fields = Text(
+        title=_(u'ml_label_additional_fields',
+                default=u"Additional Fields"),
+        description=_(u"ml_help_additional_fields",
+                      default=u"One by line"),
+        default=u'',
+        required=False)
 
 class MassLoaderControlPanelAdapter(SchemaAdapterBase):
 
@@ -100,24 +80,16 @@ class MassLoaderControlPanelAdapter(SchemaAdapterBase):
     def __init__(self, context):
         super(MassLoaderControlPanelAdapter, self).__init__(context)
 
-    massloader_option_type = ProxyFieldProperty(IMassLoaderSchema['massloader_option_type'])
     massloader_possible_types = ProxyFieldProperty(IMassLoaderSchema['massloader_possible_types'])
     massloader_max_file_size = ProxyFieldProperty(IMassLoaderSchema['massloader_max_file_size'])
-    massloader_image_portal_type = ProxyFieldProperty(IMassLoaderSchema['massloader_image_portal_type'])
+    massloader_image_like_file = ProxyFieldProperty(IMassLoaderSchema['massloader_image_like_file'])
     massloader_file_portal_type = ProxyFieldProperty(IMassLoaderSchema['massloader_file_portal_type'])
-    massloader_keywords_enable = ProxyFieldProperty(IMassLoaderSchema['massloader_keywords_enable'])
-
-ml_mainset = FormFieldsets(IMassLoaderMainSchema)
-ml_mainset.id = 'main'
-ml_mainset.label = _(u'label_rfs_main', default=u'Main')
-
-ml_typesset = FormFieldsets(IMassLoaderTypesSchema)
-ml_typesset.id = 'types'
-ml_typesset.label = _(u'label_ml_types', default=u'Types')
+    massloader_folder_portal_type = ProxyFieldProperty(IMassLoaderSchema['massloader_folder_portal_type'])
+    massloader_additional_fields = ProxyFieldProperty(IMassLoaderSchema['massloader_additional_fields'])
     
 class MassLoaderControlPanel(ControlPanelForm):
     
-    form_fields = FormFieldsets(ml_mainset, ml_typesset)
+    form_fields = form.FormFields(IMassLoaderSchema)
     
     label = _("MassLoader settings")
     description = _("MassLoader settings for this site.")

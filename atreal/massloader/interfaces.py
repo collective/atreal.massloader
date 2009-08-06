@@ -1,9 +1,21 @@
-# -*- coding: utf-8 -*-
-
 from zope.interface import Interface
 
-class IMassLoaderProvider(Interface):
-    """ provider interface """
+class IMassLoaderLayer(Interface):
+    """ Marker interface that defines a Zope 3 browser layer.
+    """
+
+class IMassLoaderAware(Interface):
+    """ 
+    """
+
+class IMassLoader(Interface):
+    """ 
+    """
     
-    def runMassLoader():
-        """ runMassLoader """
+class IArchiveUtility(Interface):
+    """ 
+    """
+    
+class IArchiveWrapper(Interface):
+    """ 
+    """
