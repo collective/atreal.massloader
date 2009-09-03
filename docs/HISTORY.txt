@@ -3,7 +3,7 @@ Changelog for atreal.massloader
 ===============================
 (name of developer listed in brackets)
 
-Version 3.0.0beta1 - 2009-08-XX
+Version 3.0.0beta1 - 2009-09-03
 ----------------------------
 
     - Option to transfer fields content names in controlpanel if exists
