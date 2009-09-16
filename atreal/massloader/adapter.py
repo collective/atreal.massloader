@@ -108,7 +108,7 @@ class MassLoader(object):
         """
         """
         additional = getattr(self._options, 'massloader_additional_fields', '')
-        if additional == '':
+        if additional is None or additional == '':
             return []
         return additional.split('\n')
     
@@ -294,11 +294,15 @@ class MassLoader(object):
         """
         for field in self.getAdditionalFields():
             #
+            if getattr(self.context, 'getField', None) is None:
+                continue
             getfield = self.context.getField(field) or self.context.getField(field.lower())
             if getfield is None:
                 continue
             getfield = getfield.getAccessor(self.context)
             #
+            if getattr(obj, 'getField', None) is None:
+                continue
             setfield = obj.getField(field) or obj.getField(field.lower())
             if setfield is None:
                 continue

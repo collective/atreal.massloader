@@ -3,6 +3,15 @@ Changelog for atreal.massloader
 ===============================
 (name of developer listed in brackets)
 
+Version 3.0.0beta2 - 2009-09-16
+----------------------------
+
+    - Bug fix : test if getField exists before use it
+    [Florent Michon]
+
+    - Bug fix : test value of additionalfield before use it
+    [Florent Michon]
+
 Version 3.0.0beta1 - 2009-09-03
 ----------------------------
 
