@@ -3,8 +3,13 @@ Changelog for atreal.massloader
 ===============================
 (name of developer listed in brackets)
 
+Version 3.0.0beta3 - (unreleased)
+--------------------------------
+
+    - Added german translation
+
 Version 3.0.0beta2 - 2009-09-16
-----------------------------
+-------------------------------
 
     - Bug fix : test if getField exists before use it
     [Florent Michon]
@@ -13,7 +18,7 @@ Version 3.0.0beta2 - 2009-09-16
     [Florent Michon]
 
 Version 3.0.0beta1 - 2009-09-03
-----------------------------
+-------------------------------
 
     - Option to transfer fields content names in controlpanel if exists
       in container and in object created
@@ -31,7 +36,7 @@ Version 3.0.0beta1 - 2009-09-03
     
     
 Version 2.1.0-beta1 - 2009-04-22
-----------------------------
+--------------------------------
 
     - Portal type can be based on content_type_registry
     [Matthias Broquet]
@@ -41,7 +46,7 @@ Version 2.1.0-beta1 - 2009-04-22
 
 
 Version 2.0.0 - 2008-12-25
-----------------------------
+--------------------------
 
     - Option to create objects with description and keywords of the folder.
     [Florent Michon]
@@ -53,7 +58,7 @@ Version 2.0.0 - 2008-12-25
 
 
 Version 1.1rc1 - 2008-10-27
-----------------------------
+---------------------------
 
     - Configlet for max file size, portal type for images and files.
     [Florent Michon]
@@ -66,7 +71,7 @@ Version 1.1rc1 - 2008-10-27
 
 
 Version 1.0.0 - 2008-03-14
-----------------------------
+--------------------------
     
     - Last version as a Product.
     [Matthias Broquet]
