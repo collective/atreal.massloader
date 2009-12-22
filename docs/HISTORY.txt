@@ -6,7 +6,8 @@ Changelog for atreal.massloader
 Version 3.0.0beta3 - (unreleased)
 --------------------------------
 
-    - Added german translation
+    - Added german translation [Tom Gross]
+    - Set css-id of 'rules'-div to 'massloader_rules' [Tom Gross]
 
 Version 3.0.0beta2 - 2009-09-16
 -------------------------------
