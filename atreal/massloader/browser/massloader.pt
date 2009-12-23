@@ -37,7 +37,7 @@
         </p>
 
         <!--<div tal:replace="structure provider:plone.abovecontentbody" />-->
-        <div>
+        <div id="massloader_rules">
         
             <dl class="collapsible inline collapsedOnLoad" >
                 <dt class="collapsibleHeader" i18n:translate="">Rules and Advices</dt>
