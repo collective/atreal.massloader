@@ -21,7 +21,7 @@ class MassLoaderView(BrowserView):
         # if form is not submitted return
         if not self.request.has_key('form.button.submit'):
             return self.template()
-        
+
         #
         if self.request.has_key('up_file') and self.request.form['up_file']:
             up_file = self.request.form['up_file']
@@ -40,17 +40,17 @@ class MassLoaderView(BrowserView):
         """
         """
         return IMassLoader(self.context).available()
-    
+
     def getMaxFileSize(self):
         """
         """
         return IMassLoader(self.context).getMaxFileSize / 1000000
-    
+
 
 class MassLoaderActionProvider(BrowserView):
     """
     """
-    
+
     def available(self):
         """
         """
@@ -58,4 +58,3 @@ class MassLoaderActionProvider(BrowserView):
             return IMassLoader(self.context).available()
         except:
             return False
-    

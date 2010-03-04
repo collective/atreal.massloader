@@ -1,19 +1,13 @@
 from zope.interface import implements
-
-
 from Products.CMFCore.utils import getToolByName
-
-
-from atreal.massloader import MassLoaderMessageFactory as _
+#from atreal.massloader import MassLoaderMessageFactory as _
 from atreal.massloader.interfaces import IArchiveWrapper
 
-
-try: 
+try:
     from zipfile import ZipFile
     ZIP = True
 except:
     ZIP = False
-
 
 try:
     from py7zlib import Archive7z
@@ -28,62 +22,55 @@ class BaseArchive(object):
     implements(IArchiveWrapper)
 
     mimetypes = []
-    
+
     archivefile = None
-    
+
     def __init__(self):
         """
         """
         pass
-    
 
     def available(self):
         """ True if the matching lib/binary is available
         """
         raise NotImplemented("Subclass Responsiblity")
-    
-    
+
     def load(self, fileupload = None):
         """
         """
         raise NotImplemented("Subclass Responsiblity")
-    
 
     def listContent(self):
         """
         """
-        raise NotImplemented("Subclass Responsiblity")    
+        raise NotImplemented("Subclass Responsiblity")
 
-    
     def readFileByName(self, name = None):
         """
         """
         raise NotImplemented("Subclass Responsiblity")
-    
-    
+
     def mimetypeFileByName(self, name = None):
         """
         """
         raise NotImplemented("Subclass Responsiblity")
 
-
     def sizeFileByName(self, name = None):
         """
         """
         raise NotImplemented("Subclass Responsiblity")
-    
+
 
 class ZipArchive(BaseArchive):
     """
     """
-    mimetypes = ['application/zip',]
-    
+    mimetypes = ['application/zip', ]
+
     def available(self):
         """
         """
         return ZIP
-    
-    
+
     def load(self, fileupload = None):
         """
         """
@@ -92,22 +79,19 @@ class ZipArchive(BaseArchive):
             return True
         except:
             return
-    
-    
+
     def listContent(self):
         """
         """
         return self.archivefile.namelist()
-    
-    
+
     def readFileByName(self, name = None):
         """
         """
         if name is None:
             return
         return self.archivefile.read(name)
-    
-    
+
     def mimetypeFileByName(self, name = None):
         """
         """
@@ -117,8 +101,7 @@ class ZipArchive(BaseArchive):
         mimetype = mimetypes_registry.classify(self.archivefile.read(name), filename=name)
         mimetype = str(mimetype) or 'application/octet-stream'
         return mimetype
-    
-    
+
     def sizeFileByName(self, name = None):
         """
         """
@@ -131,13 +114,12 @@ class ZipArchive(BaseArchive):
 class SevenZipArchive(BaseArchive):
     """
     """
-    mimetypes = ['application/x-7z-compressed',]
-    
+    mimetypes = ['application/x-7z-compressed', ]
+
     def available(self):
         """
         """
         return SEVENZIP
-
 
     def load(self, fileupload = None):
         """
@@ -147,13 +129,11 @@ class SevenZipArchive(BaseArchive):
             return True
         except:
             return
-    
 
     def listContent(self):
         """
         """
         return self.archivefile.filenames
-
 
     def readFileByName(self, name = None):
         """
@@ -161,8 +141,7 @@ class SevenZipArchive(BaseArchive):
         if name is None:
             return
         return self.archivefile.getmember(name).read()
-    
-    
+
     def mimetypeFileByName(self, name = None):
         """
         """
@@ -173,14 +152,13 @@ class SevenZipArchive(BaseArchive):
         mimetype = str(mimetype) or 'application/octet-stream'
         return mimetype
 
-
     def sizeFileByName(self, name = None):
         """
         """
         if name is None:
             return
         return self.archivefile.getmember(name).size
-    
+
 
 available_archives = [
     ZipArchive,

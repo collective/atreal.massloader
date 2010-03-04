@@ -2,10 +2,10 @@ from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
 
-from atreal.massloader import MassLoaderMessageFactory as _
+#from atreal.massloader import MassLoaderMessageFactory as _
 from atreal.massloader.interfaces import IArchiveUtility
-
 from atreal.massloader.archives import available_archives
+
 
 class ArchiveUtility(object):
     """
