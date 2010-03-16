@@ -10,12 +10,8 @@ from Products.CMFDefault.formlib.schema import ProxyFieldProperty
 from Products.CMFDefault.formlib.schema import SchemaAdapterBase
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
-#from plone.fieldsets.fieldsets import FormFieldsets
 from atreal.massloader import MassLoaderMessageFactory as _
 from plone.app.controlpanel.form import ControlPanelForm
-
-#from zope.schema.vocabulary import SimpleTerm
-#from zope.schema.vocabulary import SimpleVocabulary
 
 
 class IMassLoaderSchema(Interface):

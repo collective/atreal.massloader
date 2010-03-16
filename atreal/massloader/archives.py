@@ -1,6 +1,5 @@
 from zope.interface import implements
 from Products.CMFCore.utils import getToolByName
-#from atreal.massloader import MassLoaderMessageFactory as _
 from atreal.massloader.interfaces import IArchiveWrapper
 
 try:

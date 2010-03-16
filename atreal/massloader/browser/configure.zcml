@@ -33,7 +33,7 @@
       for="*"
       name="massloader-action"
       class=".massloader.MassLoaderActionProvider"
-      permission="atreal.massloader.UseMassLoader"
+      permission="zope2.View"
       allowed_attributes="available"
       layer="atreal.massloader.interfaces.IMassLoaderLayer"
       />
