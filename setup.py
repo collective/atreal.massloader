@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '3.0.0rc1'
+version = '3.0.0'
 
 setup(name='atreal.massloader',
       version=version,
@@ -17,7 +17,7 @@ setup(name='atreal.massloader',
       keywords='',
       author='atReal',
       author_email='contact@atreal.net',
-      url='http://www.atreal.net/',
+      url='https://svn.plone.org/svn/collective/atreal.massloader/trunk',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['atreal'],

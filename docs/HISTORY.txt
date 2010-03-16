@@ -3,6 +3,19 @@ Changelog for atreal.massloader
 ===============================
 (name of developer listed in brackets)
 
+Version 3.0.0 - 2010-03-16
+-----------------------------
+
+    - Corrected permission in massloader-action call
+    Clean-up commented lines
+    [tiazma]
+
+    - added dutch translation
+    [dimboo]
+
+    - some pyflakes cleanup
+    [WouterVH]
+
 Version 3.0.0rc1 - 2009-12-23
 -----------------------------
 
