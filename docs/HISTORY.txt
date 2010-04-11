@@ -1,100 +1,84 @@
-===============================
-Changelog for atreal.massloader
-===============================
+Changelog
+=========
+
 (name of developer listed in brackets)
 
-Version 3.1dev - xxxx-xx-xx
---------------------------
+3.1dev (xxxx-xx-xx)
+-------------------
 
 - Add MANIFEST.in [WouterVH]
 
 
-Version 3.0.0 - 2010-03-16
------------------------------
+3.0.0 (2010-03-16)
+------------------
 
-    - Corrected permission in massloader-action call
-    Clean-up commented lines
-    [tiazma]
+- Corrected permission in massloader-action call Clean-up commented lines
+  [tiazma]
 
-    - added dutch translation
-    [dimboo]
+- added dutch translation [dimboo]
 
-    - some pyflakes cleanup
-    [WouterVH]
-
-Version 3.0.0rc1 - 2009-12-23
------------------------------
-
-    - Added german translation
-    [Tom Gross]
-    
-    - Set css-id of 'rules'-div to 'massloader_rules'
-    [Tom Gross]
-
-Version 3.0.0beta2 - 2009-09-16
--------------------------------
-
-    - Bug fix : test if getField exists before use it
-    [Florent Michon]
-
-    - Bug fix : test value of additionalfield before use it
-    [Florent Michon]
-
-Version 3.0.0beta1 - 2009-09-03
--------------------------------
-
-    - Option to transfer fields content names in controlpanel if exists
-      in container and in object created
-    [Florent Michon]
-    
-    - Two ways to create contents : "Image and Files" or "only Files"
-    [Florent Michon]
-
-    - Compatibility with .7z archives
-    [Florent Michon]
-
-    - Change the structure of the package with adapter and utility creation
-      Cleanup of the package
-    [Florent Michon]
-    
-    
-Version 2.1.0-beta1 - 2009-04-22
---------------------------------
-
-    - Portal type can be based on content_type_registry
-    [Matthias Broquet]
-    
-    - Eggification
-    [Matthias Broquet]
+- some pyflakes cleanup [WouterVH]
 
 
-Version 2.0.0 - 2008-12-25
---------------------------
+3.0.0rc1 (2009-12-23)
+---------------------
 
-    - Option to create objects with description and keywords of the folder.
-    [Florent Michon]
-    
-    - Change the action provider with interface IMassLoaderAware
-      to a configlet who permit to choose portal types where you can import
-      a zip file.
-    [Florent Michon]
+- Added german translation [Tom Gross]
+
+- Set css-id of 'rules'-div to 'massloader_rules'  [Tom Gross]
 
 
-Version 1.1rc1 - 2008-10-27
----------------------------
+3.0.0beta2 (2009-09-16)
+-----------------------
 
-    - Configlet for max file size, portal type for images and files.
-    [Florent Michon]
-    
-    - Transform the products MassLoader in an egg.
-    [Florent Michon]
+- Bug fix : test if getField exists before use it [Florent Michon]
 
-    - Initial package structure.
-    [zopeskel]
+- Bug fix : test value of additionalfield before use it [Florent Michon]
 
 
-Version 1.0.0 - 2008-03-14
---------------------------
-    
-    - Last version as a Product.
-    [Matthias Broquet]
+3.0.0beta1 (2009-09-03)
+-----------------------
+
+- Option to transfer fields content names in controlpanel if exists in container
+  and in object created [Florent Michon]
+
+- Two ways to create contents : "Image and Files" or "only Files" [Florent Michon]
+
+- Compatibility with .7z archives [Florent Michon]
+
+- Change the structure of the package with adapter and utility creation.
+  Cleanup of the package [Florent Michon]
+
+
+2.1.0-beta1 (2009-04-22)
+------------------------
+
+- Portal type can be based on content_type_registry [Matthias Broquet]
+
+- Eggification [Matthias Broquet]
+
+
+2.0.0 (2008-12-25)
+------------------
+
+- Option to create objects with description and keywords of the folder.
+  [Florent Michon]
+
+- Change the action provider with interface IMassLoaderAware to a configlet who
+  permit to choose portal types where you can import a zip file. [Florent Michon]
+
+
+1.1rc1 (2008-10-27)
+-------------------
+
+- Configlet for max file size, portal type for images and files. [Florent Michon]
+
+- Transform the products MassLoader in an egg. [Florent Michon]
+
+- Initial package structure. [zopeskel]
+
+
+1.0.0 (2008-03-14)
+------------------
+
+- Last version as a Product. [Matthias Broquet]
