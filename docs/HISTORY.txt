@@ -3,6 +3,12 @@ Changelog for atreal.massloader
 ===============================
 (name of developer listed in brackets)
 
+Version 3.1dev - xxxx-xx-xx
+--------------------------
+
+- Add MANIFEST.in [WouterVH]
+
+
 Version 3.0.0 - 2010-03-16
 -----------------------------
 
