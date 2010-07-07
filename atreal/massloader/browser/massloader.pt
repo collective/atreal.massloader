@@ -21,8 +21,6 @@
             "<span tal:content="context/Title" tal:omit-tag="" i18n:name="title">title</span>"
         </h1>
 
-        <!--<div tal:replace="structure provider:plone.belowcontenttitle" />-->
-
         <a href=""
            class="link-parent"
            tal:attributes="href context/absolute_url"
@@ -36,7 +34,6 @@
             Here you can import an archive file, with sub-folders and sub-files. 
         </p>
 
-        <!--<div tal:replace="structure provider:plone.abovecontentbody" />-->
         <div id="massloader_rules">
         
             <dl class="collapsible inline collapsedOnLoad" >
@@ -110,7 +107,7 @@
                        name="build_report"
                        id="build_report"
                        tabindex=""
-                       tal:attributes="tabindex tabindex/next"
+                       tal:attributes="tabindex tabindex/next|default"
                        /> 
                 <label for="inherit" i18n:translate="ml_form_document">
                 Build a report as a Document.
@@ -128,7 +125,7 @@
                    value="Save"
                    i18n:attributes="value label_save"
                    tabindex=""
-                   tal:attributes="tabindex tabindex/next"
+                   tal:attributes="tabindex tabindex/next|default"
                    />
             <input class="standalone"
                    type="reset"
@@ -136,12 +133,11 @@
                    value="Cancel"
                    i18n:attributes="value label_cancel"
                    tabindex=""
-                   tal:attributes="tabindex tabindex/next"
+                   tal:attributes="tabindex tabindex/next|default"
                    />
         
         </fieldset>
         </form>
-
 
         <div tal:condition="view/log"
              tal:replace="structure view/log">
@@ -150,8 +146,6 @@
         
         </div>
         
-        <!--<div tal:replace="structure provider:plone.belowcontentbody" />-->
-
     </tal:main-macro>
 </metal:main>
 

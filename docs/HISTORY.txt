@@ -7,6 +7,8 @@ Changelog
 -------------------
 
 - Add MANIFEST.in [WouterVH]
+- Plone 4 compatibility by adding a tabindex-fallback
+  [tom_gross]
 
 
 3.0.0 (2010-03-16)
