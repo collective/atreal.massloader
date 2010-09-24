@@ -234,11 +234,11 @@ class MassLoader(object):
             # We construct the query
             query = {}
             # We normalize the path
-            normPath = [self._safeNormalize(item) for item in path[:ind]]
+            normPath = [self._safeNormalize(item, self.context) for item in path[:ind]]
             queryPath = '/'.join(list(self.context.getPhysicalPath())+normPath)
             query['path'] = {'query': queryPath, 'depth': 0}
             # Id of the container, previous element in path
-            query['getId'] = self._safeNormalize(path[ind-1])
+            query['getId'] = self._safeNormalize(path[ind-1], self.context)
             # We search an object with path and id
             brain = self.pc(query)
             # One match : everything is ok, we return the object container
@@ -247,7 +247,7 @@ class MassLoader(object):
             # We have to create the parents
             else:
                 container = self._getContainer(path[:ind], path[ind-1])
-                id = self._safeNormalize(path[ind-1])
+                id = self._safeNormalize(path[ind-1], self.context)
                 title = self._reencode(path[ind-1])
                 isFolder = True
                 rt, code, url, size = self._createObject(id,
@@ -451,7 +451,7 @@ class MassLoader(object):
         # We create or update the report
         if wantreport:
             filename = fileupload.filename
-            id = 'report-'+self._safeNormalize(filename)
+            id = 'report-'+self._safeNormalize(filename, self.context)
             if not self.context.hasObject(id):
                 alreadyexists = False
                 self.ptypes.constructContent(type_name='Document',
