@@ -6,6 +6,8 @@ from zope.component import queryUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
 
+from zope.app.container.interfaces import INameChooser
+
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
@@ -139,17 +141,17 @@ class MassLoader(object):
         except:
             return txt.decode(self.encoding)
 
-    def _safeNormalize(self, txt):
+    def _safeNormalize(self, txt, container):
         """
         """
         #
         while txt.startswith('_'):
             txt = txt[1:]
         #
-        try:
-            return self.putils.normalizeString(txt)
-        except:
-            return self.putils.normalizeString(unicode(txt, self.encoding))
+        chooser = INameChooser(container)
+        # chooseName is expected to choose a name without error,
+        # so no try and except should be needed
+        return chooser.chooseName(txt, container)
 
     def _log(self, filename, title=(u"N/A"), size='0', url='',
              status=_(u"Failed"), info=None):
@@ -432,7 +434,7 @@ class MassLoader(object):
                 continue
 
             # We create or update the object
-            id = self._safeNormalize(title)
+            id = self._safeNormalize(title, container)
             title = self._reencode(title)
             rt, code, url, size = self._createObject(id,
                                                      isFolder,
