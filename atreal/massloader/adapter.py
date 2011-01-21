@@ -6,8 +6,6 @@ from zope.component import queryUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
 
-from zope.app.container.interfaces import INameChooser
-
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
@@ -141,17 +139,17 @@ class MassLoader(object):
         except:
             return txt.decode(self.encoding)
 
-    def _safeNormalize(self, txt, container):
+    def _safeNormalize(self, txt):
         """
         """
         #
         while txt.startswith('_'):
             txt = txt[1:]
         #
-        chooser = INameChooser(container)
-        # chooseName is expected to choose a name without error,
-        # so no try and except should be needed
-        return chooser.chooseName(txt, container)
+        try:
+            return self.putils.normalizeString(txt)
+        except:
+            return self.putils.normalizeString(unicode(txt, self.encoding))
 
     def _log(self, filename, title=(u"N/A"), size='0', url='',
              status=_(u"Failed"), info=None):
@@ -234,11 +232,11 @@ class MassLoader(object):
             # We construct the query
             query = {}
             # We normalize the path
-            normPath = [self._safeNormalize(item, self.context) for item in path[:ind]]
+            normPath = [self._safeNormalize(item) for item in path[:ind]]
             queryPath = '/'.join(list(self.context.getPhysicalPath())+normPath)
             query['path'] = {'query': queryPath, 'depth': 0}
             # Id of the container, previous element in path
-            query['getId'] = self._safeNormalize(path[ind-1], self.context)
+            query['getId'] = self._safeNormalize(path[ind-1])
             # We search an object with path and id
             brain = self.pc(query)
             # One match : everything is ok, we return the object container
@@ -247,7 +245,7 @@ class MassLoader(object):
             # We have to create the parents
             else:
                 container = self._getContainer(path[:ind], path[ind-1])
-                id = self._safeNormalize(path[ind-1], self.context)
+                id = self._safeNormalize(path[ind-1])
                 title = self._reencode(path[ind-1])
                 isFolder = True
                 rt, code, url, size = self._createObject(id,
@@ -434,7 +432,7 @@ class MassLoader(object):
                 continue
 
             # We create or update the object
-            id = self._safeNormalize(title, container)
+            id = self._safeNormalize(title)
             title = self._reencode(title)
             rt, code, url, size = self._createObject(id,
                                                      isFolder,
@@ -451,7 +449,7 @@ class MassLoader(object):
         # We create or update the report
         if wantreport:
             filename = fileupload.filename
-            id = 'report-'+self._safeNormalize(filename, self.context)
+            id = 'report-'+self._safeNormalize(filename)
             if not self.context.hasObject(id):
                 alreadyexists = False
                 self.ptypes.constructContent(type_name='Document',
