@@ -10,6 +10,7 @@ Changelog
   [dimboo]
 
 - Add MANIFEST.in [WouterVH]
+
 - Plone 4 compatibility by adding a tabindex-fallback
   [tom_gross]
 
