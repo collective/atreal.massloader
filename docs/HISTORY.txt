@@ -3,11 +3,13 @@ Changelog
 
 (name of developer listed in brackets)
 
-3.1dev (xxxx-xx-xx)
+3.1.0 (2011-11-22)
 -------------------
 
 - Plone 4.1 compatibility (include permissions.zcml from Products.CMFCore)
   [dimboo]
+
+- Plone 4 compatibility : Avoid five:implements deprecation warning [rbeylerian]
 
 - Add MANIFEST.in [WouterVH]
 
