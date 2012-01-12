@@ -6,6 +6,9 @@ Changelog
 3.1dev (xxxx-xx-xx)
 -------------------
 
+- Plone 4.1 compatibility (include permissions.zcml from Products.CMFCore)
+  [dimboo]
+
 - Add MANIFEST.in [WouterVH]
 - Plone 4 compatibility by adding a tabindex-fallback
   [tom_gross]
