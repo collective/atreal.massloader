@@ -9,6 +9,7 @@ from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.CMFPlone.utils import normalizeString
 
 from atreal.massloader import MassLoaderMessageFactory as _
 from atreal.massloader.interfaces import IMassLoader, IArchiveUtility
@@ -67,9 +68,7 @@ class MassLoader(object):
         self.archive = None
         self.domain = 'atreal.massloader'
         #
-        self.putils = getToolByName(self.context, 'plone_utils')
         self.ptypes = getToolByName(self.context, 'portal_types')
-        self.mtr = getToolByName(self.context, 'mimetypes_registry')
         self.ctr = getToolByName(self.context, 'content_type_registry')
         self.pc = getToolByName(self.context, 'portal_catalog')
 
@@ -136,7 +135,7 @@ class MassLoader(object):
         """
         try:
             return txt.decode('utf-8')
-        except:
+        except UnicodeError:
             return txt.decode(self.encoding)
 
     def _safeNormalize(self, txt):
@@ -147,9 +146,9 @@ class MassLoader(object):
             txt = txt[1:]
         #
         try:
-            return self.putils.normalizeString(txt)
-        except:
-            return self.putils.normalizeString(unicode(txt, self.encoding))
+            return normalizeString(txt)
+        except UnicodeError:
+            return normalizeString(unicode(txt, self.encoding))
 
     def _log(self, filename, title=(u"N/A"), size='0', url='',
              status=_(u"Failed"), info=None):
