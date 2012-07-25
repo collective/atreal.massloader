@@ -1,5 +1,6 @@
 import transaction
 
+from zope.i18n import translate
 from zope.interface import implements
 from zope.component import queryUtility
 
@@ -71,8 +72,7 @@ class MassLoader(object):
         self.mtr = getToolByName(self.context, 'mimetypes_registry')
         self.ctr = getToolByName(self.context, 'content_type_registry')
         self.pc = getToolByName(self.context, 'portal_catalog')
-        self.translate = getToolByName(self.context,
-                                       'translation_service').utranslate
+
         #
         props = getToolByName(self.context, 'portal_properties')
         stp = props.site_properties
@@ -156,8 +156,8 @@ class MassLoader(object):
         """
         """
         #
-        if info is not None and self.msg.has_key(info):
-            info = self.msg[info]
+        if info is not None:
+            info = self.msg.get(info, u"")
         else:
             info = u""
 
@@ -166,16 +166,11 @@ class MassLoader(object):
                  'title': title,
                  'size': size,
                  'url': url,
-                 'status': self._translate(status),
-                 'info': self._translate(info), }
+                 'status': translate(status),
+                 'info': translate(info), }
 
         #
         self.log.append(entry)
-
-    def _translate(self, elem):
-        """
-        """
-        return self.translate(self.domain, elem, context=self.context)
 
     def _printLog(self):
         """
@@ -185,11 +180,11 @@ class MassLoader(object):
                    tal:attributes="summary string:Import results" \
                    tal:condition="python:results"> \
               <tr> \
-                <th>'+self._translate(_(u"Original file name"))+'</th>\
-                <th>'+self._translate(_(u"Direct Link"))+'</th>\
-                <th>'+self._translate(_(u"Size"))+'</th>\
-                <th>'+self._translate(_(u"Status"))+'</th>\
-                <th>'+self._translate(_(u"Notes"))+'</th>\
+                <th>'+translate(_(u"Original file name"))+'</th>\
+                <th>'+translate(_(u"Direct Link"))+'</th>\
+                <th>'+translate(_(u"Size"))+'</th>\
+                <th>'+translate(_(u"Status"))+'</th>\
+                <th>'+translate(_(u"Notes"))+'</th>\
               </tr>\
         '
         #
@@ -461,9 +456,9 @@ class MassLoader(object):
             if alreadyexists:
                 text += report.getText().decode('utf-8')
             else:
-                title = self._translate(_('Report'))
+                title = translate(_('Report'))
                 report.setTitle(title + ' ' + filename)
-                desc = self._translate(_('Import report for the zip file'))
+                desc = translate(_('Import report for the zip file'))
                 report.setDescription(desc + ' ' + filename)
             report.setText(text)
             report.reindexObject()

@@ -3,8 +3,14 @@ Changelog
 
 (name of developer listed in brackets)
 
+3.2.0 (unreleased)
+------------------
+
+- use zope.i18n.translate for i18n translations
+  [tom_gross]
+
 3.1.0 (2011-11-22)
--------------------
+------------------
 
 - Plone 4.1 compatibility (include permissions.zcml from Products.CMFCore)
   [dimboo]
