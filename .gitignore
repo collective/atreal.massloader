@@ -1,3 +1,4 @@
 *.pyc
-*.mo
+dist
+build
 *.egg-info
