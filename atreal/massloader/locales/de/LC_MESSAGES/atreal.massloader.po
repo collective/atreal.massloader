@@ -1,0 +1,297 @@
+# Translations for atreal.massloader package
+# First-Author: Matthias Broquet <mbroquet@atreal.net>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: atreal.massloader-3.0.0beta1\n"
+"POT-Creation-Date: 2009-08-06 12:33+0000\n"
+"PO-Revision-Date: 2009-12-15 12:33+0000\n"
+"Last-Translator: Robert Ming <robert.ming@fhnw.ch>\n"
+"Language-Team: FHNW <webmaster@fhnw.ch>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: de\n"
+"Language-Name: German\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: atreal.massloader\n"
+"X-Is-Fallback-For: de-at de-ch de-de\n"
+
+#: ./adapter.py:181
+msgid "Direct Link"
+msgstr "Direkter Link"
+
+#: ./adapter.py:147
+msgid "Failed"
+msgstr "Fehlgeschlagen"
+
+#: ./adapter.py:478
+msgid "Import report for the zip file"
+msgstr "Importbericht der Zip-Datei"
+
+#. Default: "MassLoader"
+#: ./profiles/default/controlpanel.xml
+msgid "MassLoader"
+msgstr "MassLoader"
+
+#: ./browser/controlpanel.py:94
+msgid "MassLoader settings"
+msgstr "MassLoader Einstellungen"
+
+#: ./browser/controlpanel.py:95
+msgid "MassLoader settings for this site."
+msgstr "MassLoader Einstellungen für diese Site."
+
+#: ./adapter.py:184
+msgid "Notes"
+msgstr "Kommentare"
+
+#: ./adapter.py:253
+msgid "Ok"
+msgstr "Ok"
+
+#: ./adapter.py:180
+msgid "Original file name"
+msgstr "Name der Originaldatei"
+
+#: ./adapter.py:476
+msgid "Report"
+msgstr "Bericht"
+
+#. Default: "Rules and Advices"
+#: ./browser/massloader.pt:43
+msgid "Rules and Advices"
+msgstr "Regeln und Hinweise"
+
+#: ./adapter.py:182
+msgid "Size"
+msgstr "Grösse"
+
+#: ./adapter.py:183
+msgid "Status"
+msgstr "Zustand"
+
+#: ./browser/massloader.py:34
+msgid "You have to select a file."
+msgstr "Sie müssen eine Datei wählen."
+
+#. Default: "Return"
+#: ./browser/massloader.pt:26
+msgid "go_to_contentrules_assignment_context"
+msgstr "Zurück"
+
+#. Default: "Cancel"
+#: ./browser/massloader.pt:133
+msgid "label_cancel"
+msgstr "Abbrechen"
+
+#. Default: "Save"
+#: ./browser/massloader.pt:125
+msgid "label_save"
+msgstr "Speichern"
+
+#. Default: "Advice"
+#: ./browser/massloader.pt:65
+msgid "ml_advice"
+msgstr "Hinweis"
+
+#. Default: "It's strongly suggested to not have file names with specials characters, like [éùàê ...], in order to avoid strange file's titles in the portal."
+#: ./browser/massloader.pt:78
+msgid "ml_advice_char"
+msgstr "Es wird dringend empfohlen keine Dateinamen mit Sonderzeichen wie [ö,ü,ä,Ü,Ä,...] zu verwenden. Damit werden unleserliche Dateititel in der Website vermieden."
+
+#. Default: "All operations performed will be logged and displayed at the end of the import. So you will be able to know what occurred with each file."
+#: ./browser/massloader.pt:73
+msgid "ml_advice_log"
+msgstr "Alle Vorgänge werden aufgezeichnet und am Ende des Imports angezeigt. Damit können Sie überprüfen, wie die einzelnen Dateien behandelt wurden."
+
+#. Default: "This operation may take a <strong>LOT OF TIME</strong>, depending on you internet bandwith, AND of course on the size of your zip file, and the formats of the contained files. So be patient and use the import functionality with care."
+#: ./browser/massloader.pt:67
+msgid "ml_advice_time"
+msgstr "Dieser Vorgang kann, je nach Qualität des Internetzugangs und der Grösse der Zip-Datei <strong>LANGE DAUERN</strong>. Haben Sie etwas Geduld und verwenden Sie die Import-Funktionalität mit Vorsicht!"
+
+#. Default: "Choose your <strong>archive file</strong> then submit it"
+#: ./browser/massloader.pt:95
+msgid "ml_form_choice"
+msgstr "Wählen Sie Ihre <strong>Zip-Datei</strong> und bestätigen Sie anschliessend."
+
+#. Default: "Build a report as a Document."
+#: ./browser/massloader.pt:115
+msgid "ml_form_document"
+msgstr "Wenn gewählt, wird der Importbericht als Dokument erstellt."
+
+#. Default: "One by line"
+#: ./browser/controlpanel.py:70
+msgid "ml_help_additional_fields"
+msgstr "Eines pro Zeile"
+
+#. Default: "The portal type you want in order to create files. Be aware that the content type must implement setFile."
+#: ./browser/controlpanel.py:52
+msgid "ml_help_file_portal_type"
+msgstr "Gewünschter Artikeltyp um Dateien anzulegen. Achtung, dieser Typ muss die Methode setFile implementieren."
+
+#. Default: "The portal type you want in order to create folders. Be aware that the content type must be folderish and allow the file type selected."
+#: ./browser/controlpanel.py:61
+msgid "ml_help_folder_portal_type"
+msgstr "Gewünschter Artikeltyp um Ordner anzulegen. Achtung, dieser Typ muss 'folderish' sein und das Einfügen des gewählten Dateityps zulassen."
+
+#. Default: "This option will create a Plone Document with the result of the Mass Upload in this folder. If you don't choose this option, the report will be displayed only once."
+#: ./browser/massloader.pt:115
+msgid "ml_help_form_document"
+msgstr "Diese Option wird ein Plone-Dokument mit dem Resultat des Imports in diesem Ordner ablegen. Wenn Sie diese Option nicht wählen, wird der Bericht nur einmal angezeigt."
+
+#. Default: "In order to create Images as Portal Type Files."
+#: ./browser/controlpanel.py:44
+msgid "ml_help_image_like_file"
+msgstr "Um Bilder als Datei-Artikel anzulegen."
+
+#. Default: "Each file contained in the zip file must fit this maximum size. If the size exceeds this limit, the object will not be created."
+#: ./browser/controlpanel.py:26
+msgid "ml_help_max_file_size"
+msgstr "Jede Datei im Zip-Archiv muss kleiner als diese maximale Grösse sein. Sollte das Maximun überschritten werden, wird der Artikel nicht erzeugt."
+
+#. Default: "Content Type where we can use MassLoader on it. Of course, you have to selected only Folderish Content Types in order to see MassLoader run correctly."
+#: ./browser/controlpanel.py:36
+msgid "ml_help_possible_types"
+msgstr "Artikeltyp, bei dem der MassLoader angewendet werden kann. Natürlich können Sie nur Artikeltypen mit der Eigenschaft 'Folderish' (Ordner, Plonesite, ...) wählen, damit der MassLoader korrekt funktioniert."
+
+#. Default: "Import form for \"${title}\""
+#: ./browser/massloader.pt:21
+msgid "ml_import_title"
+msgstr "Importformular für \"${title}\""
+
+#. Default: "Additional Fields"
+#: ./browser/controlpanel.py:68
+msgid "ml_label_additional_fields"
+msgstr "Zusätzliche Felder"
+
+#. Default: "Portal Type for file"
+#: ./browser/controlpanel.py:50
+msgid "ml_label_file_portal_type"
+msgstr "Artikeltyp für Dateien"
+
+#. Default: "Portal Type for folder"
+#: ./browser/controlpanel.py:59
+msgid "ml_label_folder_portal_type"
+msgstr "Artikeltyp für Ordner"
+
+#. Default: "Treat Images like Files"
+#: ./browser/controlpanel.py:42
+msgid "ml_label_image_like_file"
+msgstr "Bilder wie Dateien behandeln"
+
+#. Default: "Limit size of each file in the zip file (in MegaBytes)"
+#: ./browser/controlpanel.py:24
+msgid "ml_label_max_file_size"
+msgstr "Maximale Grösse jeder Datei im Zip-Archiv (in MegaBytes)"
+
+#. Default: "MassLoader Aware Types"
+#: ./browser/controlpanel.py:32
+msgid "ml_label_possible_types"
+msgstr "MassLoader-verträgliche Artikel"
+
+#. Default: "Here you can import an archive file, with sub-folders and sub-files."
+#: ./browser/massloader.pt:34
+msgid "ml_preambule"
+msgstr "Hier können Sie eine Archiv-Datei mit Unterordnern und Dateien importieren."
+
+#. Default: "You are not allowed to import an archive here"
+#: ./browser/massloader_old.py:35
+msgid "ml_py_contextNotAllowed"
+msgstr "Hier ist es nicht erlaubt ein Archiv zu importieren."
+
+#. Default: "Error while creating object"
+#: ./adapter.py:52
+msgid "ml_py_createError"
+msgstr "Fehler beim Anlegen des Artikels"
+
+#. Default: "Error while creating folder"
+#: ./adapter.py:49
+msgid "ml_py_createFolderError"
+msgstr "Fehler beim Anlegen des Ordners"
+
+#. Default: "File created"
+#: ./adapter.py:51
+msgid "ml_py_createOK"
+msgstr "Datei erzeugt"
+
+#. Default: "Folder Already Exists"
+#: ./adapter.py:46
+msgid "ml_py_folderExisted"
+msgstr "Ordner existiert bereits"
+
+#. Default: "Folder created"
+#: ./adapter.py:48
+msgid "ml_py_folderOK"
+msgstr "Ordner erzeugt"
+
+#. Default: "Some errors occured while loading files"
+#: ./adapter.py:56
+msgid "ml_py_generalError"
+msgstr "Beim Laden der Dateien traten Fehler auf"
+
+#. Default: "File size exceeds the maximal size defined in the configuration"
+#: ./adapter.py:43
+msgid "ml_py_maxsize"
+msgstr "Die Datei ist grösser als der definierte Maximalwert"
+
+#. Default: "Error while building the report"
+#: ./browser/massloader_old.py:30
+msgid "ml_py_noReport"
+msgstr "Beim Erzeugen des Berichts sind Fehler aufgetreten"
+
+#. Default: "Uploaded file doesn't exist"
+#: ./adapter.py:40
+msgid "ml_py_noUpFile"
+msgstr "Die hochgeladene Datei existiert nicht"
+
+#. Default: "Unable to find parent object"
+#: ./adapter.py:45
+msgid "ml_py_noparent"
+msgstr "Das Eltern-Objekt wurde nicht gefunden"
+
+#. Default: "Uploaded file is not a valid zip file"
+#: ./adapter.py:41
+msgid "ml_py_notZipFile"
+msgstr "Die hochgeladene Datei ist keine gültige Zip-Datei"
+
+#. Default: "All files were successfully loaded"
+#: ./adapter.py:55
+msgid "ml_py_success"
+msgstr "Alle Dateien wurden erfolgreich hochgeladen"
+
+#. Default: "Error while updating object"
+#: ./adapter.py:54
+msgid "ml_py_updateError"
+msgstr "Fehler beim Aktualisieren des Artikels"
+
+#. Default: "File updated"
+#: ./adapter.py:53
+msgid "ml_py_updateOK"
+msgstr "Datei aktualisiert"
+
+#. Default: "If a folder with a similar name already exists, the old one will be conserved."
+#: ./browser/massloader.pt:53
+msgid "ml_rule_folder"
+msgstr "Falls bereits ein Ordner mit dem gleichen Namen existiert, wird der alte beibehalten."
+
+#. Default: "The two kinds of archive treated by MassLoader are zip and 7zip."
+#: ./browser/massloader.pt:61
+msgid "ml_rule_format"
+msgstr "Die Archivtypen zip und 7zip werden von MassLoader unterstützt."
+
+#. Default: "If an object with a similar name already exists, it will be updated with the data of the new one."
+#: ./browser/massloader.pt:57
+msgid "ml_rule_object"
+msgstr "Falls bereits ein Artikel mit dem gleichen Namen existiert, wird er mit den neuen Informationen aktualisiert."
+
+#. Default: "Each file contained in the archive file must fit a maximum size of ${size} Mb. If the size exceeds this limit, the object will not be created."
+#: ./browser/massloader.pt:50
+msgid "ml_rule_size"
+msgstr "Jede Datei im Zip-Archiv darf nicht grösser als ${size} Mb sein. Sollte diese Grösse überschritten werden, wird der Artikel nicht angelegt."
+
+#. Default: "Rules"
+#: ./browser/massloader.pt:46
+msgid "ml_rules"
+msgstr "Regeln"
+

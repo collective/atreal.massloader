@@ -1,0 +1,14 @@
+*.py[cod]
+.hgignore~
+.gitignore~
+.hg/
+.tox
+
+example/db/
+example/tmp/
+build/
+builddocs/
+builddocs.zip
+dist/
+atreal.massloader.egg-info
+

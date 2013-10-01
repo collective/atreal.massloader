@@ -1,0 +1,45 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:five="http://namespaces.zope.org/five"
+  xmlns:i18n="http://namespaces.zope.org/i18n"
+  i18n:domain="atreal.massloader">
+
+  <adapter factory=".controlpanel.MassLoaderControlPanelAdapter" />
+  
+  <include package="Products.CMFCore" file="permissions.zcml"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
+           zcml:condition="have plone-41" />
+
+  <browser:page
+      name="massloader-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.MassLoaderControlPanel"
+      permission="cmf.ManagePortal"
+      layer="atreal.massloader.interfaces.IMassLoaderLayer"
+      />
+    
+  <browser:resource
+      name="massloader_icon.png"
+      image="massloader_icon.png"
+      layer="atreal.massloader.interfaces.IMassLoaderLayer"
+      />
+
+  <browser:page
+      for="..interfaces.IMassLoaderAware"
+      name="massloader"
+      class=".massloader.MassLoaderView"
+      permission="atreal.massloader.UseMassLoader"
+      layer="atreal.massloader.interfaces.IMassLoaderLayer"
+      />
+
+  <browser:page
+      for="*"
+      name="massloader-action"
+      class=".massloader.MassLoaderActionProvider"
+      permission="zope2.View"
+      allowed_attributes="available"
+      layer="atreal.massloader.interfaces.IMassLoaderLayer"
+      />
+
+</configure>
