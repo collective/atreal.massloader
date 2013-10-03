@@ -145,6 +145,14 @@ class MassLoader(object):
         #
         while txt.startswith('_'):
             txt = txt[1:]
+
+        try:
+            return unicode(txt, self.encoding)
+        except:
+            return txt
+
+        # Below, using putils, the real file name is replaced with strange one ("." are changed to "-").
+        # We do not want that and just try to encode the filename.
         #
         try:
             return self.putils.normalizeString(txt)
