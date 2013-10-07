@@ -6,6 +6,8 @@ from zope.component import queryUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
 
+from plone.i18n.normalizer.interfaces import IURLNormalizer
+
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
@@ -26,7 +28,6 @@ UPDATEOK = 10
 UPDATEERROR = 11
 GENERALOK = 12
 GENERALERROR = 13
-
 
 class MassLoader(object):
     """
@@ -146,18 +147,23 @@ class MassLoader(object):
         while txt.startswith('_'):
             txt = txt[1:]
 
+        # When using putils, the real file name is replaced with strange one ("." are changed to "-"). We
+        # do not want that and just try to encode the filename (standard Plone behaviour). Thus, putils
+        # are replaced with what's advised here (http://developer.plone.org/misc/normalizing_ids.html).
+        # Note, that ``atreal.massloader.normalizer.URLNormalizer`` is used for normalization. The class
+        # mentioned varies from Plone's original class by not lowercasing the names. It's registered in
+        # ``overrides.zcml``.
+        util = queryUtility(IURLNormalizer)
         try:
-            return unicode(txt, self.encoding)
+            return util.normalize(txt)
         except:
-            return txt
+            return util.normalize(unicode(txt, self.encoding))
 
-        # Below, using putils, the real file name is replaced with strange one ("." are changed to "-").
-        # We do not want that and just try to encode the filename.
         #
-        try:
-            return self.putils.normalizeString(txt)
-        except:
-            return self.putils.normalizeString(unicode(txt, self.encoding))
+        #try:
+        #    return self.putils.normalizeString(txt)
+        #except:
+        #    return self.putils.normalizeString(unicode(txt, self.encoding))
 
     def _log(self, filename, title=(u"N/A"), size='0', url='',
              status=_(u"Failed"), info=None):
@@ -384,6 +390,9 @@ class MassLoader(object):
                     if self._setData(obj, data, filename) is False:
                         return False, CREATEERROR, None, ""
 
+                    import logging
+                    logger = logging.getLogger('Plone')
+                    logger.info(filename)
                     obj.setFilename(filename)
                     obj.setFormat(mimetype)
                     #

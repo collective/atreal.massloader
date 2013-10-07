@@ -1,12 +1,16 @@
 Fixes
 ========================
-2013-10-03
+2013-10-07
 ------------------------
 Fix description
 ~~~~~~~~~~~~~~~~~~~~~~~~
 The original version of massloader used own "safe" id's, which were used
 in the slugs when creating a file. This doesn't seem to be a standard Plone
-behaviour, thus, we fall back to normal P
+behaviour, thus, we fall back to normal Plone normalisation given here
+(http://developer.plone.org/misc/normalizing_ids.html). In addition to that,
+the ``plone.i18n.normalizer.URLNormalizer`` has been replaced (in
+``overrides.zcml``) by ``atreal.massloader.normalizer.URLNormalizer`` which
+does not transform filenames to lowercase.
 
 2013-10-01
 ------------------------
