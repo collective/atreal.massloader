@@ -390,9 +390,9 @@ class MassLoader(object):
                     if self._setData(obj, data, filename) is False:
                         return False, CREATEERROR, None, ""
 
-                    import logging
-                    logger = logging.getLogger('Plone')
-                    logger.info(filename)
+                    #import logging
+                    #logger = logging.getLogger('Plone')
+                    #logger.info(filename)
                     obj.setFilename(filename)
                     obj.setFormat(mimetype)
                     #
