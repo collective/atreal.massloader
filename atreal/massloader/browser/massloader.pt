@@ -106,8 +106,6 @@
                        type="checkbox"
                        name="build_report"
                        id="build_report"
-                       tabindex=""
-                       tal:attributes="tabindex tabindex/next|default"
                        /> 
                 <label for="inherit" i18n:translate="ml_form_document">
                 Build a report as a Document.
@@ -124,16 +122,12 @@
                    name="form.button.submit"
                    value="Save"
                    i18n:attributes="value label_save"
-                   tabindex=""
-                   tal:attributes="tabindex tabindex/next|default"
                    />
             <input class="standalone"
                    type="reset"
                    name="form.button.cancel"
                    value="Cancel"
                    i18n:attributes="value label_cancel"
-                   tabindex=""
-                   tal:attributes="tabindex tabindex/next|default"
                    />
         
         </fieldset>

@@ -1,15 +1,16 @@
 import transaction
 
+from zope.i18n import translate
 from zope.interface import implements
 from zope.component import queryUtility
 
 from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
 
-from plone.i18n.normalizer.interfaces import IURLNormalizer
-
+from plone.i18n.normalizer.interfaces import IFileNameNormalizer
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.CMFPlone.utils import normalizeString
 
 from atreal.massloader import MassLoaderMessageFactory as _
 from atreal.massloader.interfaces import IMassLoader, IArchiveUtility
@@ -28,6 +29,7 @@ UPDATEOK = 10
 UPDATEERROR = 11
 GENERALOK = 12
 GENERALERROR = 13
+
 
 class MassLoader(object):
     """
@@ -67,13 +69,10 @@ class MassLoader(object):
         self.archive = None
         self.domain = 'atreal.massloader'
         #
-        self.putils = getToolByName(self.context, 'plone_utils')
         self.ptypes = getToolByName(self.context, 'portal_types')
-        self.mtr = getToolByName(self.context, 'mimetypes_registry')
         self.ctr = getToolByName(self.context, 'content_type_registry')
         self.pc = getToolByName(self.context, 'portal_catalog')
-        self.translate = getToolByName(self.context,
-                                       'translation_service').utranslate
+
         #
         props = getToolByName(self.context, 'portal_properties')
         stp = props.site_properties
@@ -137,7 +136,7 @@ class MassLoader(object):
         """
         try:
             return txt.decode('utf-8')
-        except:
+        except UnicodeError:
             return txt.decode(self.encoding)
 
     def _safeNormalize(self, txt):
@@ -147,31 +146,22 @@ class MassLoader(object):
         while txt.startswith('_'):
             txt = txt[1:]
 
-        # When using putils, the real file name is replaced with strange one ("." are changed to "-"). We
-        # do not want that and just try to encode the filename (standard Plone behaviour). Thus, putils
-        # are replaced with what's advised here (http://developer.plone.org/misc/normalizing_ids.html).
-        # Note, that ``atreal.massloader.normalizer.URLNormalizer`` is used for normalization. The class
-        # mentioned varies from Plone's original class by not lowercasing the names. It's registered in
-        # ``overrides.zcml``.
-        util = queryUtility(IURLNormalizer)
+        # When using putils.normalizeString, the real file name is replaced with strange one ("." are changed to "-").
+        # We do not want that, because normal plone file upload doesn't do that either.
+        # Therefore we use the FileNameNormalizer utiltiy.
+        util = queryUtility(IFileNameNormalizer)
         try:
             return util.normalize(txt)
-        except:
+        except UnicodeError:
             return util.normalize(unicode(txt, self.encoding))
-
-        #
-        #try:
-        #    return self.putils.normalizeString(txt)
-        #except:
-        #    return self.putils.normalizeString(unicode(txt, self.encoding))
 
     def _log(self, filename, title=(u"N/A"), size='0', url='',
              status=_(u"Failed"), info=None):
         """
         """
         #
-        if info is not None and self.msg.has_key(info):
-            info = self.msg[info]
+        if info is not None:
+            info = self.msg.get(info, u"")
         else:
             info = u""
 
@@ -180,16 +170,11 @@ class MassLoader(object):
                  'title': title,
                  'size': size,
                  'url': url,
-                 'status': self._translate(status),
-                 'info': self._translate(info), }
+                 'status': translate(status),
+                 'info': translate(info), }
 
         #
         self.log.append(entry)
-
-    def _translate(self, elem):
-        """
-        """
-        return self.translate(self.domain, elem, context=self.context)
 
     def _printLog(self):
         """
@@ -199,11 +184,11 @@ class MassLoader(object):
                    tal:attributes="summary string:Import results" \
                    tal:condition="python:results"> \
               <tr> \
-                <th>'+self._translate(_(u"Original file name"))+'</th>\
-                <th>'+self._translate(_(u"Direct Link"))+'</th>\
-                <th>'+self._translate(_(u"Size"))+'</th>\
-                <th>'+self._translate(_(u"Status"))+'</th>\
-                <th>'+self._translate(_(u"Notes"))+'</th>\
+                <th>'+translate(_(u"Original file name"))+'</th>\
+                <th>'+translate(_(u"Direct Link"))+'</th>\
+                <th>'+translate(_(u"Size"))+'</th>\
+                <th>'+translate(_(u"Status"))+'</th>\
+                <th>'+translate(_(u"Notes"))+'</th>\
               </tr>\
         '
         #
@@ -389,10 +374,6 @@ class MassLoader(object):
                     data = self.archive.readFileByName(filename)
                     if self._setData(obj, data, filename) is False:
                         return False, CREATEERROR, None, ""
-
-                    #import logging
-                    #logger = logging.getLogger('Plone')
-                    #logger.info(filename)
                     obj.setFilename(filename)
                     obj.setFormat(mimetype)
                     #
@@ -480,9 +461,9 @@ class MassLoader(object):
             if alreadyexists:
                 text += report.getText().decode('utf-8')
             else:
-                title = self._translate(_('Report'))
+                title = translate(_('Report'))
                 report.setTitle(title + ' ' + filename)
-                desc = self._translate(_('Import report for the zip file'))
+                desc = translate(_('Import report for the zip file'))
                 report.setDescription(desc + ' ' + filename)
             report.setText(text)
             report.reindexObject()

@@ -29,7 +29,7 @@ class IMassLoaderSchema(Interface):
         title = _(u'ml_label_possible_types',
             default=u"MassLoader Aware Types"),
         required = False,
-        default = ['Large Plone Folder', 'Plone Site', 'Folder'],
+        default = ['Plone Site', 'Folder'],
         description = _(u"ml_help_possible_types",
             default=u"Content Type where we can use MassLoader on it. Of course,\
                 you have to selected only Folderish Content Types in order to \

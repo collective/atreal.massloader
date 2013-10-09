@@ -3,12 +3,22 @@ Changelog
 
 (name of developer listed in brackets)
 
-3.1dev (xxxx-xx-xx)
--------------------
+3.1.2 (2012-08-14)
+------------------
 
-- Plone 4.1 compatibility (include permissions.zcml from Products.CMFCore)
-  [dimboo]
+- Package fix
 
+
+3.1.1 (2012-08-14)
+------------------
+
+- use zope.i18n.translate for i18n translations
+  [tom_gross]
+
+3.1.0 (2011-11-22)
+------------------
+
+- Plone 4 compatibility : Avoid five:implements deprecation warning [rbeylerian]
 - Add MANIFEST.in [WouterVH]
 - Plone 4 compatibility by adding a tabindex-fallback
   [tom_gross]

@@ -5,10 +5,10 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '3.1.0.gwwfix2'
+version = '3.1.3dev'
 
 long_description = (
-    read('README.txt')
+    read('README.rst')
     + '\n' +
     read('docs', 'HISTORY.txt')
     )

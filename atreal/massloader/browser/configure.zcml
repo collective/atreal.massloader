@@ -6,10 +6,6 @@
   i18n:domain="atreal.massloader">
 
   <adapter factory=".controlpanel.MassLoaderControlPanelAdapter" />
-  
-  <include package="Products.CMFCore" file="permissions.zcml"
-           xmlns:zcml="http://namespaces.zope.org/zcml"
-           zcml:condition="have plone-41" />
 
   <browser:page
       name="massloader-controlpanel"
