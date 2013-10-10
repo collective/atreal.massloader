@@ -6,3 +6,6 @@ include
 lib
 parts
 var
+*.egg-info
+*.mo
+*.pyc
