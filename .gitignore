@@ -1,4 +1,8 @@
-*.pyc
-dist
-build
-*.egg-info
+.installed.cfg
+.mr.developer.cfg
+bin
+develop-eggs
+include
+lib
+parts
+var

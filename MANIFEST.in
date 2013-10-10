@@ -1,4 +1,2 @@
-include *.txt include *.rst
-
-recursive-include docs *
-recursive-include atreal *
+graft src/massloader
+include *.cfg *.rst *.in
