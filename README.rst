@@ -62,11 +62,11 @@ Authors
 Contributors
 ============
 
-  - Romain BEYLERIAN [rbeylerian]
-  - Wouter Vanden Hove [WouterVH]
-  - [siebo]
-  - [tomgross]
-
+* Romain BEYLERIAN [rbeylerian]
+* Wouter Vanden Hove [WouterVH]
+* [siebo]
+* [tomgross]
+* [dimboo]
 
 
 Credits
