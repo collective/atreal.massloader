@@ -62,15 +62,17 @@ Authors
 Contributors
 ============
 
-* `atReal Team`_
-
   - Romain BEYLERIAN [rbeylerian]
+  - Wouter Vanden Hove [WouterVH]
+  - [siebo]
+  - [tomgross]
 
-  .. _atReal Team: mailto:contact@atreal.fr
 
 
 Credits
 =======
 
-* Sponsorised by ML-COM - www.ml-com.com (and some international research labs)
-* Sponsorised by City of Albi (Fr), www.mairie-albi.fr
+* Initially sponsorised by ML-COM - www.ml-com.com 
+  (and some international research labs)
+* Evolutions sponsorised by City of Albi (Fr), 
+  www.mairie-albi.fr
