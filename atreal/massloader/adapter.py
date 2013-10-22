@@ -7,6 +7,7 @@ from zope.component import queryUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
 
+from plone.i18n.normalizer.interfaces import IFileNameNormalizer
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import normalizeString
@@ -144,11 +145,15 @@ class MassLoader(object):
         #
         while txt.startswith('_'):
             txt = txt[1:]
-        #
+
+        # When using putils.normalizeString, the real file name is replaced with strange one ("." are changed to "-").
+        # We do not want that, because normal plone file upload doesn't do that either.
+        # Therefore we use the FileNameNormalizer utiltiy.
+        util = queryUtility(IFileNameNormalizer)
         try:
-            return normalizeString(txt)
+            return util.normalize(txt)
         except UnicodeError:
-            return normalizeString(unicode(txt, self.encoding))
+            return util.normalize(unicode(txt, self.encoding))
 
     def _log(self, filename, title=(u"N/A"), size='0', url='',
              status=_(u"Failed"), info=None):

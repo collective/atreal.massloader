@@ -67,6 +67,8 @@ Contributors
 * [siebo]
 * [tomgross]
 * [dimboo]
+* [foreverchild]
+* Peter Uittenbroek [thepjot]
 
 
 Credits
