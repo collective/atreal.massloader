@@ -6,8 +6,7 @@ Changelog
 3.2.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Use IFileNameNormalizer instead of CMFPlone.utils.normalizeString [foreverchild]
 
 3.1.2 (2012-08-14)
 ------------------
