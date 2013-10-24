@@ -23,7 +23,7 @@ Important
 * The permission is only set by default to the role 'Manager' and 'Owner'.
 * From the version 3.0.0beta1, the portal type of new object can be managed via
   2 mechanisms, selectable in the control panel :
-  
+
   * If content type registry detects an Image, MassLoader creates an Image, if
     it's not an image MassLoader creates a file with the portal type selected
     in Control Panel.
@@ -69,12 +69,13 @@ Contributors
 * [dimboo]
 * [foreverchild]
 * Peter Uittenbroek [thepjot]
+* Rafael Oliveira [rafaelbco]
 
 
 Credits
 =======
 
-* Initially sponsorised by ML-COM - www.ml-com.com 
+* Initially sponsorised by ML-COM - www.ml-com.com
   (and some international research labs)
-* Evolutions sponsorised by City of Albi (Fr), 
+* Evolutions sponsorised by City of Albi (Fr),
   www.mairie-albi.fr
