@@ -9,12 +9,14 @@ from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
 
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
+from plone.app.textfield.value import RichTextValue
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
 from atreal.massloader import MassLoaderMessageFactory as _
 from atreal.massloader.interfaces import IMassLoader, IArchiveUtility
 from atreal.massloader.browser.controlpanel import IMassLoaderSchema
+
 
 try:
     pkg_resources.get_distribution('plone.namedfile')
@@ -285,12 +287,12 @@ class MassLoader(object):
         # We want only the last component of the file path.
         filename = filename.split('/')[-1]
 
-        field_setter = (
+        setField = (
             self._setImageField if (obj.portal_type == 'Image')
             else self._setFileField
         )
         try:
-            field_setter(obj=obj, data=data, filename=filename)
+            setField(obj=obj, data=data, filename=filename)
         except:
             return False
 
@@ -312,19 +314,16 @@ class MassLoader(object):
         namedFileClass -- Class corresponding to the file type. Normaly `NamedBlobFile` or
                           `NamedBlobImage`.
         """
-
-        #
-
-        setter = getattr(obj, 'set' + fieldName.capitalize(), None)
-        if setter is None:
-            def setter(data, filename):
+        setField = getattr(obj, 'set' + fieldName.capitalize(), None)
+        if setField is None:
+            def setField(data, filename):
                 setattr(
                     obj,
                     fieldName,
                     namedFileClass(data=data, filename=filename.decode('utf8'))
                 )
 
-        setter(data, filename=filename)
+        setField(data, filename=filename)
 
     def _setImageField(self, obj, data, filename):
         """
@@ -518,13 +517,25 @@ class MassLoader(object):
             report = self.context[id]
             text = self._printLog()
             if alreadyexists:
-                text += report.getText().decode('utf-8')
+                getText = getattr(report, 'getText', None)
+                if getText is None:
+                    def getText():
+                        return report.text.raw
+
+                text += getText().decode('utf-8')
             else:
                 title = translate(_('Report'))
                 report.setTitle(title + ' ' + filename)
                 desc = translate(_('Import report for the zip file'))
                 report.setDescription(desc + ' ' + filename)
-            report.setText(text)
+
+            setText = getattr(report, 'setText', None)
+            if setText is None:
+                def setText(text):
+                    report.text = RichTextValue(text, 'text/html', 'text/x-html-safe')
+
+            setText(text)
+
             report.reindexObject()
 
         # Return
