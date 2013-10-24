@@ -1,4 +1,5 @@
 import transaction
+import pkg_resources
 
 from zope.i18n import translate
 from zope.interface import implements
@@ -10,11 +11,17 @@ from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.utils import normalizeString
 
 from atreal.massloader import MassLoaderMessageFactory as _
 from atreal.massloader.interfaces import IMassLoader, IArchiveUtility
 from atreal.massloader.browser.controlpanel import IMassLoaderSchema
+
+try:
+    pkg_resources.get_distribution('plone.namedfile')
+    from plone.namedfile.file import NamedBlobFile, NamedBlobImage
+except pkg_resources.DistributionNotFound:
+    pass
+
 
 NOUPLOADFILE = 1
 NOCORRECTFILE = 2
@@ -270,23 +277,76 @@ class MassLoader(object):
         return True
 
     def _setData(self, obj, data, filename):
+        """ Set the given file data on the correct field of the given object.
         """
-        """
-        #
         if type(filename) == unicode:
             filename = filename.encode('utf-8')
 
+        # We want only the last component of the file path.
+        filename = filename.split('/')[-1]
+
+        field_setter = (
+            self._setImageField if (obj.portal_type == 'Image')
+            else self._setFileField
+        )
+        try:
+            field_setter(obj=obj, data=data, filename=filename)
+        except:
+            return False
+
+    def _setField(self, obj, data, filename, fieldName, namedFileClass):
+        """
+        Set the data on the object using one of the 2 methods:
+
+        - Object has a `setFile` method (Archetypes).
+        - Assign a `NamedBlobFile` to attribute `file` (Dexterity).
+
+        The first available method is used.
+
+        Parameters:
+
+        obj -- Object where to set the value.
+        data -- String containing file data.
+        filename -- File name as `unicode`.
+        fieldName -- Name of the field. Normaly "file" or "image".
+        namedFileClass -- Class corresponding to the file type. Normaly `NamedBlobFile` or
+                          `NamedBlobImage`.
+        """
+
         #
-        if obj.portal_type == 'Image':
-            try:
-                obj.setImage(data, filename=filename)
-            except:
-                return False
-        else:
-            try:
-                obj.setFile(data, filename=filename)
-            except:
-                return False
+
+        setter = getattr(obj, 'set' + fieldName.capitalize(), None)
+        if setter is None:
+            def setter(data, filename):
+                setattr(
+                    obj,
+                    fieldName,
+                    namedFileClass(data=data, filename=filename.decode('utf8'))
+                )
+
+        setter(data, filename=filename)
+
+    def _setImageField(self, obj, data, filename):
+        """
+        """
+        self._setField(
+            obj=obj,
+            data=data,
+            filename=filename,
+            fieldName='image',
+            namedFileClass=NamedBlobImage
+        )
+
+    def _setFileField(self, obj, data, filename):
+        """
+        """
+        self._setField(
+            obj=obj,
+            data=data,
+            filename=filename,
+            fieldName='file',
+            namedFileClass=NamedBlobFile
+        )
 
     def _loadAdditionnalsFields(self, obj):
         """
