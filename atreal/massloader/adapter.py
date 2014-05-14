@@ -137,7 +137,10 @@ class MassLoader(object):
         try:
             return txt.decode('utf-8')
         except UnicodeError:
-            return txt.decode(self.encoding)
+            try:
+                return txt.decode(self.encoding)
+            except UnicodeError:
+                return txt
 
     def _safeNormalize(self, txt):
         """
