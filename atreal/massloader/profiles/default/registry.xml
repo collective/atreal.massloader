@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<registry>
+
+  <records interface="atreal.massloader.browser.controlpanel.IMassLoaderSchema" purge="false">
+    <value key="massloader_max_file_size">20</value>
+    <value key="massloader_possible_types">
+      <element>Plone Site</element>
+      <element>Folder</element>
+    </value>
+    <value key="massloader_image_like_file">False</value>
+    <value key="massloader_file_portal_type">File</value>
+    <value key="massloader_folder_portal_type">Folder</value>
+    <value key="massloader_additional_fields"></value>
+  </records>
+</registry>

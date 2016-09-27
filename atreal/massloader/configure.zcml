@@ -22,6 +22,10 @@
     <implements interface=".interfaces.IMassLoaderAware" />
   </class>
   
+  <class class="plone.app.contenttypes.content.Folder">
+    <implements interface=".interfaces.IMassLoaderAware" />
+  </class>
+
   <class class="Products.ATContentTypes.content.base.ATCTFolderMixin">
     <implements interface=".interfaces.IMassLoaderAware" />
   </class>

@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from plone.app.registry.browser import controlpanel
 from zope.interface import Interface
 from zope.component import adapts
 from zope.interface import implements
 from zope.schema import TextLine, Text, Choice, Bool, List
-from zope.formlib import form
 
-from Products.CMFDefault.formlib.schema import ProxyFieldProperty
-from Products.CMFDefault.formlib.schema import SchemaAdapterBase
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
 from atreal.massloader import MassLoaderMessageFactory as _
-from plone.app.controlpanel.form import ControlPanelForm
 
 
 class IMassLoaderSchema(Interface):
@@ -76,26 +73,13 @@ class IMassLoaderSchema(Interface):
         required=False)
 
 
-class MassLoaderControlPanelAdapter(SchemaAdapterBase):
+class MassLoaderControlPanelForm(controlpanel.RegistryEditForm):
 
-    adapts(IPloneSiteRoot)
-    implements(IMassLoaderSchema)
-
-    def __init__(self, context):
-        super(MassLoaderControlPanelAdapter, self).__init__(context)
-
-    massloader_possible_types = ProxyFieldProperty(IMassLoaderSchema['massloader_possible_types'])
-    massloader_max_file_size = ProxyFieldProperty(IMassLoaderSchema['massloader_max_file_size'])
-    massloader_image_like_file = ProxyFieldProperty(IMassLoaderSchema['massloader_image_like_file'])
-    massloader_file_portal_type = ProxyFieldProperty(IMassLoaderSchema['massloader_file_portal_type'])
-    massloader_folder_portal_type = ProxyFieldProperty(IMassLoaderSchema['massloader_folder_portal_type'])
-    massloader_additional_fields = ProxyFieldProperty(IMassLoaderSchema['massloader_additional_fields'])
-
-
-class MassLoaderControlPanel(ControlPanelForm):
-
-    form_fields = form.FormFields(IMassLoaderSchema)
-
+    schema = IMassLoaderSchema
     label = _("MassLoader settings")
     description = _("MassLoader settings for this site.")
-    form_name = _("MassLoader settings")
+
+
+class MassLoaderControlPanel(controlpanel.ControlPanelFormWrapper):
+    implements(IMassLoaderSchema)
+    form = MassLoaderControlPanelForm

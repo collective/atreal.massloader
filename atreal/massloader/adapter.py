@@ -1,20 +1,21 @@
 import transaction
 
-from zope.i18n import translate
-from zope.interface import implements
-from zope.component import queryUtility
-
-from zope.event import notify
-from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
-
-from plone.i18n.normalizer.interfaces import IFileNameNormalizer
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.utils import normalizeString
-
 from atreal.massloader import MassLoaderMessageFactory as _
 from atreal.massloader.interfaces import IMassLoader, IArchiveUtility
 from atreal.massloader.browser.controlpanel import IMassLoaderSchema
+from plone.app.textfield.value import RichTextValue
+from plone.i18n.normalizer.interfaces import IFileNameNormalizer
+from plone.registry.interfaces import IRegistry
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.CMFPlone.utils import normalizeString
+from zope.component import getUtility
+from zope.component import queryUtility
+from zope.event import notify
+from zope.i18n import translate
+from zope.interface import implements
+from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
+
 
 NOUPLOADFILE = 1
 NOCORRECTFILE = 2
@@ -82,8 +83,8 @@ class MassLoader(object):
     def _options(self):
         """
         """
-        _siteroot = queryUtility(IPloneSiteRoot)
-        return IMassLoaderSchema(_siteroot)
+        registry = getUtility(IRegistry)
+        return registry.forInterface(IMassLoaderSchema)
 
     def available(self):
         """
@@ -375,6 +376,7 @@ class MassLoader(object):
                     self._loadAdditionnalsFields(obj)
                     #
                     data = self.archive.readFileByName(filename)
+                    import ipdb;pdb.set_trace()
                     if self._setData(obj, data, filename) is False:
                         return False, CREATEERROR, None, ""
                     obj.setFilename(filename)
@@ -468,7 +470,7 @@ class MassLoader(object):
                 report.setTitle(title + ' ' + filename)
                 desc = translate(_('Import report for the zip file'))
                 report.setDescription(desc + ' ' + filename)
-            report.setText(text)
+            report.text = RichTextValue(text, 'text/html', 'text/html')
             report.reindexObject()
 
         # Return
