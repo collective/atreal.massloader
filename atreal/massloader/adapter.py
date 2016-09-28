@@ -3,6 +3,7 @@ import transaction
 from atreal.massloader import MassLoaderMessageFactory as _
 from atreal.massloader.interfaces import IMassLoader, IArchiveUtility
 from atreal.massloader.browser.controlpanel import IMassLoaderSchema
+from plone import namedfile
 from plone.app.textfield.value import RichTextValue
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
 from plone.registry.interfaces import IRegistry
@@ -277,8 +278,8 @@ class MassLoader(object):
         """
         """
         #
-        if type(filename) == unicode:
-            filename = filename.encode('utf-8')
+        if type(filename) != unicode:
+            filename = unicode(filename, 'utf-8')
 
         #
         if obj.portal_type == 'Image':
@@ -288,7 +289,8 @@ class MassLoader(object):
                 return False
         else:
             try:
-                obj.setFile(data, filename=filename)
+                import ipdb;ipdb.set_trace()
+                obj.file = namedfile.NamedBlobFile(data, filename=filename)
             except:
                 return False
 
@@ -376,11 +378,8 @@ class MassLoader(object):
                     self._loadAdditionnalsFields(obj)
                     #
                     data = self.archive.readFileByName(filename)
-                    import ipdb;pdb.set_trace()
                     if self._setData(obj, data, filename) is False:
                         return False, CREATEERROR, None, ""
-                    obj.setFilename(filename)
-                    obj.setFormat(mimetype)
                     #
                     obj.reindexObject()
                     #
