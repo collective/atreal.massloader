@@ -280,6 +280,7 @@ class MassLoader(object):
         #
         if type(filename) != unicode:
             filename = unicode(filename, 'utf-8')
+        filename = filename.split('/')[-1]
 
         #
         if obj.portal_type == 'Image':
@@ -289,7 +290,6 @@ class MassLoader(object):
                 return False
         else:
             try:
-                import ipdb;ipdb.set_trace()
                 obj.file = namedfile.NamedBlobFile(data, filename=filename)
             except:
                 return False
@@ -463,7 +463,7 @@ class MassLoader(object):
             report = self.context[id]
             text = self._printLog()
             if alreadyexists:
-                text += report.getText().decode('utf-8')
+                text += report.text.raw.decode('utf-8')
             else:
                 title = translate(_('Report'))
                 report.setTitle(title + ' ' + filename)
