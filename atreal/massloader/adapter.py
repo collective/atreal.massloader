@@ -8,7 +8,6 @@ from plone.app.textfield.value import RichTextValue
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import normalizeString
 from zope.component import getUtility
 from zope.component import queryUtility
