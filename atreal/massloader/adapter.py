@@ -160,9 +160,11 @@ class MassLoader(object):
         # Therefore we use the FileNameNormalizer utiltiy.
         util = queryUtility(IFileNameNormalizer)
         try:
-            return util.normalize(txt)
+            normalized = util.normalize(txt)
         except UnicodeError:
-            return util.normalize(unicode(txt, self.encoding))
+            normalized = util.normalize(unicode(txt, self.encoding))
+
+        return normalized or u'empty_name'
 
     def _log(self, filename, title=(u"N/A"), size='0', url='',
              status=_(u"Failed"), info=None):
