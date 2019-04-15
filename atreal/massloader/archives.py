@@ -1,7 +1,7 @@
 from atreal.massloader.interfaces import IArchiveWrapper
 from Products.CMFCore.utils import getToolByName
 
-from zope.interface import implements
+from zope.interface import implementer
 
 try:
     from zipfile import ZipFile
@@ -16,10 +16,10 @@ except:
     SEVENZIP = False
 
 
+@implementer(IArchiveWrapper)
 class BaseArchive(object):
     """ A base class to wrapp archive
     """
-    implements(IArchiveWrapper)
 
     mimetypes = []
 

@@ -2,14 +2,14 @@ from atreal.massloader.archives import available_archives
 from atreal.massloader.interfaces import IArchiveUtility
 from Products.CMFCore.utils import getToolByName
 
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IArchiveUtility)
 class ArchiveUtility(object):
     """
     """
 
-    implements(IArchiveUtility)
 
     def initialize(self, fileupload = None):
         """

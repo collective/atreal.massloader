@@ -26,10 +26,6 @@
     <implements interface=".interfaces.IMassLoaderAware" />
   </class>
 
-  <class class="Products.ATContentTypes.content.base.ATCTFolderMixin">
-    <implements interface=".interfaces.IMassLoaderAware" />
-  </class>
-
   <adapter
     for=".interfaces.IMassLoaderAware"
       factory=".adapter.MassLoader"

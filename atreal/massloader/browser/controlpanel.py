@@ -4,8 +4,7 @@ from atreal.massloader import MassLoaderMessageFactory as _
 from plone.app.registry.browser import controlpanel
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
-from zope.component import adapts
-from zope.interface import Interface, implements
+from zope.interface import Interface, implementer
 from zope.schema import Bool, Choice, List, Text, TextLine
 
 
@@ -78,6 +77,6 @@ class MassLoaderControlPanelForm(controlpanel.RegistryEditForm):
     description = _("MassLoader settings for this site.")
 
 
+@implementer(IMassLoaderSchema)
 class MassLoaderControlPanel(controlpanel.ControlPanelFormWrapper):
-    implements(IMassLoaderSchema)
     form = MassLoaderControlPanelForm

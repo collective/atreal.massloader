@@ -13,7 +13,7 @@ import transaction
 from zope.component import getUtility, queryUtility
 from zope.event import notify
 from zope.i18n import translate
-from zope.interface import implements
+from zope.interface import implementer
 from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
 
 NOUPLOADFILE = 1
@@ -31,11 +31,11 @@ GENERALOK = 12
 GENERALERROR = 13
 
 
+@implementer(IMassLoader)
 class MassLoader(object):
     """
     """
 
-    implements(IMassLoader)
 
     encoding = 'cp850'
 
