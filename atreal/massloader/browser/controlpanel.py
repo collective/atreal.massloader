@@ -25,9 +25,9 @@ class IMassLoaderSchema(Interface):
         required = False,
         default = ['Plone Site', 'Folder'],
         description = _(u"ml_help_possible_types",
-            default=u"Content Type where we can use MassLoader on it. Of course,\
-                you have to selected only Folderish Content Types in order to \
-                see MassLoader run correctly."),
+            default=u"Content types on which MassLoader can be used. \
+                Only Folderish Content Types should  be selected for \
+                MassLoader to run correctly."),
         value_type = Choice(
             title=u"ml_label_possible_types",
             source="plone.app.vocabularies.PortalTypes"))
@@ -36,7 +36,7 @@ class IMassLoaderSchema(Interface):
         title=_(u'ml_label_image_like_file',
             default=u"Treat Images like Files"),
         description=_(u"ml_help_image_like_file",
-            default=u"In order to create Images as Portal Type Files."),
+            default=u"In order to create Images as File Portal Type."),
         default=False,
         required=False)
 
@@ -54,7 +54,7 @@ class IMassLoaderSchema(Interface):
         title=_(u'ml_label_folder_portal_type',
             default=u"Portal Type for folder"),
         description=_(u"ml_help_folder_portal_type",
-            default=u"The portal type you want in order to create folders. \
+            default=u"The portal type to be used to create folders. \
                 Be aware that the content type must be folderish and allow the \
                 file type selected."),
         default=u'Folder',
@@ -65,7 +65,7 @@ class IMassLoaderSchema(Interface):
         title=_(u'ml_label_additional_fields',
                 default=u"Additional Fields"),
         description=_(u"ml_help_additional_fields",
-                      default=u"One by line"),
+                      default=u"One per line"),
         default=u'',
         required=False)
 
