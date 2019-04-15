@@ -36,6 +36,7 @@ setup(name='atreal.massloader',
           'setuptools',
           'pylzma',
           # -*- Extra requirements: -*-
+          'six',
       ],
       entry_points="""
       # -*- Entry points: -*-

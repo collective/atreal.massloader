@@ -15,6 +15,7 @@ from zope.event import notify
 from zope.i18n import translate
 from zope.interface import implements
 from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
+import six
 
 
 NOUPLOADFILE = 1
@@ -98,7 +99,7 @@ class MassLoader(object):
         """ Return the maxFileSize from Settings
         """
         return int(getattr(self._options, 'massloader_max_file_size',
-                           '20')) * 1000000L
+                           '20')) * 1000000
 
     def portalTypesAware(self):
         """
@@ -157,7 +158,7 @@ class MassLoader(object):
         try:
             return util.normalize(txt)
         except UnicodeError:
-            return util.normalize(unicode(txt, self.encoding))
+            return util.normalize(six.text_type(txt, self.encoding))
 
     def _log(self, filename, title=(u"N/A"), size='0', url='',
              status=_(u"Failed"), info=None):
@@ -277,8 +278,8 @@ class MassLoader(object):
         """
         """
         #
-        if type(filename) != unicode:
-            filename = unicode(filename, 'utf-8')
+        if type(filename) != six.text_type:
+            filename = six.text_type(filename, 'utf-8')
         filename = filename.split('/')[-1]
 
         #
@@ -318,7 +319,7 @@ class MassLoader(object):
         """ Create the object
         """
         if isFolder:
-            if id in container.keys():
+            if id in list(container.keys()):
                 # Object already exists, it's a folder we keep it without change
                 obj = container[id]
                 code = FOLDERALREADYEXISTS
@@ -342,7 +343,7 @@ class MassLoader(object):
                     #
                     return False, FOLDERCREATEERROR, None, ""
         else:
-            if id in container.keys():
+            if id in list(container.keys()):
                 # Object already exists, it's not a folder, we have to update it
                 try:
                     # Update

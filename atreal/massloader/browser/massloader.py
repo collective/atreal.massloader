@@ -19,13 +19,13 @@ class MassLoaderView(BrowserView):
         """
         """
         # if form is not submitted return
-        if not self.request.has_key('form.button.submit'):
+        if 'form.button.submit' not in self.request:
             return self.template()
 
         #
-        if self.request.has_key('up_file') and self.request.form['up_file']:
+        if 'up_file' in self.request and self.request.form['up_file']:
             up_file = self.request.form['up_file']
-            build_report = self.request.has_key('build_report')
+            build_report = 'build_report' in self.request
             status, self.log = IMassLoader(self.context).process(up_file,
                                                                  build_report)
             IStatusMessage(self.request).addStatusMessage(status, type='info')
