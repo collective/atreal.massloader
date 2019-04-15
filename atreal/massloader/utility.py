@@ -1,9 +1,8 @@
-from zope.interface import implements
-
+from atreal.massloader.archives import available_archives
+from atreal.massloader.interfaces import IArchiveUtility
 from Products.CMFCore.utils import getToolByName
 
-from atreal.massloader.interfaces import IArchiveUtility
-from atreal.massloader.archives import available_archives
+from zope.interface import implements
 
 
 class ArchiveUtility(object):

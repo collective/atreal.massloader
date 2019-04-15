@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from atreal.massloader import MassLoaderMessageFactory as _
 from plone.app.registry.browser import controlpanel
-from zope.interface import Interface
-from zope.component import adapts
-from zope.interface import implements
-from zope.schema import TextLine, Text, Choice, Bool, List
-
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
-from atreal.massloader import MassLoaderMessageFactory as _
+from zope.component import adapts
+from zope.interface import Interface, implements
+from zope.schema import Bool, Choice, List, Text, TextLine
 
 
 class IMassLoaderSchema(Interface):

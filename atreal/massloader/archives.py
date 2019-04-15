@@ -1,6 +1,7 @@
-from zope.interface import implements
-from Products.CMFCore.utils import getToolByName
 from atreal.massloader.interfaces import IArchiveWrapper
+from Products.CMFCore.utils import getToolByName
+
+from zope.interface import implements
 
 try:
     from zipfile import ZipFile

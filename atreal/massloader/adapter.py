@@ -1,22 +1,20 @@
-import transaction
-
 from atreal.massloader import MassLoaderMessageFactory as _
-from atreal.massloader.interfaces import IMassLoader, IArchiveUtility
 from atreal.massloader.browser.controlpanel import IMassLoaderSchema
+from atreal.massloader.interfaces import IArchiveUtility, IMassLoader
 from plone import namedfile
 from plone.app.textfield.value import RichTextValue
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import normalizeString
-from zope.component import getUtility
-from zope.component import queryUtility
+
+import six
+import transaction
+from zope.component import getUtility, queryUtility
 from zope.event import notify
 from zope.i18n import translate
 from zope.interface import implements
 from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
-import six
-
 
 NOUPLOADFILE = 1
 NOCORRECTFILE = 2
