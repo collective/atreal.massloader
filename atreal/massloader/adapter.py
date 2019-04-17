@@ -30,7 +30,7 @@ UPDATEOK = 10
 UPDATEERROR = 11
 GENERALOK = 12
 GENERALERROR = 13
-
+TYPESVIEW = 'plone.types_use_view_action_in_listings'
 
 @implementer(IMassLoader)
 class MassLoader(object):
@@ -73,18 +73,16 @@ class MassLoader(object):
         self.ptypes = getToolByName(self.context, 'portal_types')
         self.ctr = getToolByName(self.context, 'content_type_registry')
         self.pc = getToolByName(self.context, 'portal_catalog')
+        self.registry = getUtility(IRegistry)
 
         #
-        props = getToolByName(self.context, 'portal_properties')
-        stp = props.site_properties
-        self.view_types = stp.getProperty('typesUseViewActionInListings', ())
+        self.view_types = self.registry.get(TYPESVIEW)
 
     @property
     def _options(self):
         """
         """
-        registry = getUtility(IRegistry)
-        return registry.forInterface(IMassLoaderSchema)
+        return self.registry.forInterface(IMassLoaderSchema)
 
     def available(self):
         """
