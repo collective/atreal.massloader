@@ -63,7 +63,7 @@
                     <ul>
                         <li i18n:translate="ml_advice_time">
                         This operation may take a <strong>LONG TIME</strong>, depending
-                        on you internet bandwith, AND of course on the size of your zip file,
+                        on your internet bandwith, AND of course on the size of your zip file,
                         and the formats of the contained files. So be patient and use 
                         the import functionality with care.
                         </li>

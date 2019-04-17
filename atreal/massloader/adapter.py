@@ -6,6 +6,7 @@ from plone.app.textfield.value import RichTextValue
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import human_readable_size
 from Products.CMFPlone.utils import normalizeString
 
 import six
@@ -136,6 +137,8 @@ class MassLoader(object):
         """
         try:
             return txt.decode('utf-8')
+        except AttributeError:
+            return txt
         except UnicodeError:
             try:
                 return txt.decode(self.encoding)
@@ -393,7 +396,7 @@ class MassLoader(object):
         url = obj.absolute_url()
         if obj.portal_type in self.view_types:
             url += '/view'
-        return True, code, url, obj.getObjSize()
+        return True, code, url, human_readable_size(obj.getSize())
 
     def process(self, fileupload=None, wantreport=False):
         """
