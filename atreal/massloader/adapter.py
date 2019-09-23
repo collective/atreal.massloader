@@ -1,6 +1,8 @@
 import transaction
 import pkg_resources
 
+from logging import getLogger
+
 from zope.i18n import translate
 from zope.interface import implements
 from zope.component import queryUtility
@@ -86,6 +88,11 @@ class MassLoader(object):
         props = getToolByName(self.context, 'portal_properties')
         stp = props.site_properties
         self.view_types = stp.getProperty('typesUseViewActionInListings', ())
+
+        # Logger for debugging only.
+        t = type(self)
+        self._logger = getLogger(t.__module__ + '.' + t.__name__)
+
 
     @property
     def _options(self):
@@ -295,7 +302,11 @@ class MassLoader(object):
         )
         try:
             setField(obj=obj, data=data, filename=filename)
-        except:
+        except Exception as e:
+            self._logger.warning(
+                '_setData: Error setting field. '
+                'obj={}, filename={}, str(e)={}, repr(e)={}'.format(obj, filename, str(e), repr(e))
+            )
             return False
 
     def _setField(self, obj, data, filename, fieldName, namedFileClass):
@@ -394,7 +405,13 @@ class MassLoader(object):
                     obj.reindexObject()
                     #
                     code = FOLDERCREATEOK
-                except:
+                except Exception as e:
+                    self._logger.warning(
+                        '_createObject: Error creating folder. '
+                        'id={}, title={}, container={}, filename={}, str(e)={}, repr(e)={}'.format(
+                            id, title, container, filename, str(e), repr(e)
+                        )
+                    )
                     #
                     return False, FOLDERCREATEERROR, None, ""
         else:
@@ -415,7 +432,13 @@ class MassLoader(object):
                     notify(ObjectModifiedEvent(obj))
                     #
                     code = UPDATEOK
-                except:
+                except Exception as e:
+                    self._logger.warning(
+                        '_createObject: Error replacing existing item data. '
+                        'id={}, title={}, container={}, filename={}, str(e)={}, repr(e)={}'.format(
+                            id, title, container, filename, str(e), repr(e)
+                        )
+                    )
                     #
                     return False, UPDATEERROR, None, ""
             else:
@@ -443,7 +466,13 @@ class MassLoader(object):
                     notify(ObjectCreatedEvent(obj))
                     #
                     code = CREATEOK
-                except:
+                except Exception as e:
+                    self._logger.warning(
+                        '_createObject: Error creating new item. '
+                        'id={}, title={}, container={}, filename={}, str(e)={}, repr(e)={}'.format(
+                            id, title, container, filename, str(e), repr(e)
+                        )
+                    )
                     #
                     return False, CREATEERROR, None, ""
 
