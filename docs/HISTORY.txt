@@ -6,6 +6,7 @@ Changelog
 3.2.0 (unreleased)
 ------------------
 
+- Address the case where filename normalization results in an empty string [rafaelbco]
 - Use IFileNameNormalizer instead of CMFPlone.utils.normalizeString [foreverchild]
 - Dexterity compatibility. Tested with types from plone.app.contenttypes [rafaelbco]
 
@@ -13,7 +14,6 @@ Changelog
 ------------------
 
 - Package fix
-
 
 3.1.1 (2012-08-14)
 ------------------
