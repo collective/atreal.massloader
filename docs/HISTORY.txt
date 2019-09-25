@@ -6,6 +6,7 @@ Changelog
 3.2.0 (unreleased)
 ------------------
 
+- Do not swallow ConflictError. [rafaelbco]
 - Address the case where filename normalization results in an empty string [rafaelbco]
 - Use IFileNameNormalizer instead of CMFPlone.utils.normalizeString [foreverchild]
 - Dexterity compatibility. Tested with types from plone.app.contenttypes [rafaelbco]

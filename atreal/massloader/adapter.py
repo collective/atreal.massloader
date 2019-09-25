@@ -19,6 +19,8 @@ from atreal.massloader import MassLoaderMessageFactory as _
 from atreal.massloader.interfaces import IMassLoader, IArchiveUtility
 from atreal.massloader.browser.controlpanel import IMassLoaderSchema
 
+from ZODB.POSException import ConflictError
+
 
 try:
     pkg_resources.get_distribution('plone.namedfile')
@@ -302,6 +304,9 @@ class MassLoader(object):
         )
         try:
             setField(obj=obj, data=data, filename=filename)
+        except ConflictError:
+            # Do not swallow conflict errors.
+            raise
         except Exception as e:
             self._logger.warning(
                 '_setData: Error setting field. '
@@ -405,6 +410,9 @@ class MassLoader(object):
                     obj.reindexObject()
                     #
                     code = FOLDERCREATEOK
+                except ConflictError:
+                    # Do not swallow conflict errors.
+                    raise
                 except Exception as e:
                     self._logger.warning(
                         '_createObject: Error creating folder. '
@@ -432,6 +440,9 @@ class MassLoader(object):
                     notify(ObjectModifiedEvent(obj))
                     #
                     code = UPDATEOK
+                except ConflictError:
+                    # Do not swallow conflict errors.
+                    raise
                 except Exception as e:
                     self._logger.warning(
                         '_createObject: Error replacing existing item data. '
@@ -466,6 +477,9 @@ class MassLoader(object):
                     notify(ObjectCreatedEvent(obj))
                     #
                     code = CREATEOK
+                except ConflictError:
+                    # Do not swallow conflict errors.
+                    raise
                 except Exception as e:
                     self._logger.warning(
                         '_createObject: Error creating new item. '
